@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fact Knowledge Layer</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1>Fact Knowledge Layer</h1>
+    <div id="chips" class="chips"></div>
+  </div>
+  <div class="bar sub">
+    <label>Collection
+      <select id="collection"><option value="">all</option></select>
+    </label>
+    <form id="upload" class="upload">
+      <input type="file" id="pdf" accept="application/pdf" required>
+      <input type="text" id="uploadCollection" placeholder="collection" size="14">
+      <input type="text" id="uploadSubject" placeholder="subject (optional)" size="16">
+      <button type="submit">Add PDF</button>
+      <span id="uploadStatus"></span>
+    </form>
+  </div>
+  <nav id="tabs">
+    <button data-tab="relations" class="active">Relationships</button>
+    <button data-tab="facts">Facts</button>
+    <button data-tab="documents">Documents</button>
+    <button data-tab="concepts">Concepts</button>
+  </nav>
+</header>
+
+<main>
+  <section id="relations" class="tab active">
+    <div class="filters">
+      <div id="relFilters" class="chips"></div>
+      <label class="toggle"><input type="checkbox" id="crossOnly"> cross-document only</label>
+    </div>
+    <div id="relList" class="list"></div>
+    <button id="more" class="more" hidden>Load more</button>
+  </section>
+
+  <section id="facts" class="tab">
+    <div class="filters">
+      <input type="search" id="factQuery" placeholder="search facts and evidence…">
+      <button id="factSearch">Search</button>
+    </div>
+    <div id="factList" class="list"></div>
+  </section>
+
+  <section id="documents" class="tab"><div id="docList" class="list"></div></section>
+  <section id="concepts" class="tab"><div id="conceptList" class="list"></div></section>
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

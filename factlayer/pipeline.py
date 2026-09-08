@@ -41,13 +41,25 @@ class IngestReport:
         return {**self.__dict__, "seconds": round(self.seconds, 2)}
 
 
+# Citations read badly when a PDF's title metadata is a full bibliographic line.
+_LABEL_CHARS = 52
+
+
+def short_label(title: str, filename: str) -> str:
+    label = (title or "").strip() or filename
+    if len(label) <= _LABEL_CHARS:
+        return label
+    cut = label[:_LABEL_CHARS].rsplit(" ", 1)[0]
+    return (cut or label[:_LABEL_CHARS]).rstrip(",;:") + "…"
+
+
 def _document_map(store: Store) -> dict[str, DocumentInfo]:
     out: dict[str, DocumentInfo] = {}
     for row in store.documents():
         published = row["published_on"]
         out[row["doc_id"]] = DocumentInfo(
             doc_id=row["doc_id"],
-            label=row["title"] or row["filename"],
+            label=short_label(row["title"], row["filename"]),
             collection=row["collection"],
             published_on=__import__("datetime").date.fromisoformat(published)
             if published else None)
