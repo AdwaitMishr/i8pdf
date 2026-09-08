@@ -1,0 +1,40 @@
+{
+  "_comment": "Context dimensions that legitimately change a reported figure. Each dimension maps a canonical value to the surface phrases that assert it. Extend this file (or point FACTLAYER_LEXICON at your own) as new kinds of qualifier appear -- nothing else in the pipeline hard-codes these names.",
+  "consolidation": {
+    "consolidated": ["consolidated", "group basis", "group level"],
+    "standalone": ["standalone", "stand-alone", "separate financial"]
+  },
+  "vintage": {
+    "advance_estimate": ["first advance estimate", "second advance estimate", "advance estimate"],
+    "provisional": ["provisional"],
+    "revised": ["revised estimate", "first revised estimate", "revised"],
+    "projection": ["projected", "projection", "forecast", "baseline scenario", "staff projects", "is expected to", "are expected to", "expected to"],
+    "estimate": ["estimated", "estimate"],
+    "target": ["budget estimate", "budgeted", "target of"],
+    "actual": ["actual"]
+  },
+  "adjustment": {
+    "adjusted": ["adjusted", "adj."],
+    "restated": ["restated"],
+    "pro_forma": ["pro forma", "pro-forma"],
+    "excluding": ["excluding", "net of", "other than", "exclusive of"],
+    "including": ["including", "inclusive of"]
+  },
+  "price_basis": {
+    "real": ["at constant prices", "constant prices", "in real terms", "real"],
+    "nominal": ["at current prices", "current prices", "nominal"]
+  },
+  "aggregation": {
+    "average": ["average", "mean"],
+    "median": ["median"],
+    "annualised": ["annualised", "annualized"],
+    "per_capita": ["per capita"],
+    "cumulative": ["cumulative", "since inception"],
+    "seasonally_adjusted": ["seasonally adjusted"]
+  },
+  "comparison": {
+    "yoy": ["year-on-year", "year on year", "yoy", "y-o-y"],
+    "qoq": ["quarter-on-quarter", "qoq", "q-o-q", "sequential"],
+    "cagr": ["cagr"]
+  }
+}
