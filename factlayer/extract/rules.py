@@ -61,6 +61,8 @@ _RELATIVE_BACK = re.compile(
 # describing something else in the sentence.
 _QUALIFIER_RANGE = 100
 _QUALIFIER_COMMAS = 1
+# A column header is a label, not a paragraph.
+_MAX_HEADER_WORDS = 10
 # A parenthetical that carries its own number is an aside about that number:
 # in "increased to 4.6 percent (from 3.5 percent FY2024/25 average)" the period
 # belongs to the 3.5, and the 4.6 is left with no period at all -- which is the
@@ -236,6 +238,8 @@ def _header_context(cells: list[Cell], value_cell: Cell
     period: Period | None = None
     context: dict[str, str] = {}
     for header in column_headers_for(cells, value_cell):
+        if len(header.text.split()) > _MAX_HEADER_WORDS:
+            continue
         if period is None:
             found = find_periods(header.text)
             if found:
@@ -305,8 +309,11 @@ def extract_from_unit(unit: Unit, page_no: int, ctx: ExtractionContext,
                       if cells else None)
 
         # A bare number in a table gets its period and basis from the headers
-        # standing above its column, not from the row it sits in.
-        if value_cell is not None and (period is None or not context):
+        # standing above its column.  Restricted to table rows: on a page of
+        # prose the "cell above" is simply the previous paragraph, and letting
+        # that act as a header hands every value its neighbour's context.
+        if (value_cell is not None and unit.kind == "row"
+                and (period is None or not context)):
             header_period, header_context = _header_context(cells, value_cell)
             period = period or header_period
             context = {**header_context, **context}

@@ -175,6 +175,10 @@ def find_quantities(text: str, skip: list[tuple[int, int]] | None = None,
             scale_word = scale_hit.group("scale")
             scale = SCALES[scale_word.lower()]
             confidence = 0.8
+            # "million." ends a sentence; "Mn." is an abbreviation.  Give the
+            # full stop back to the sentence when the scale word is spelled out.
+            if len(scale_word) > 3 and text[pos - 1:pos] == ".":
+                pos -= 1
         if not sym:
             sym_hit = eat(_TRAIL_SYMBOL)
             if sym_hit:

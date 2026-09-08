@@ -33,6 +33,8 @@ BRIDGE = {
     "marginally", "slightly", "significantly", "substantially", "sharply",
     "modestly", "steadily", "gradually", "meanwhile", "overall", "modest",
     "strong", "robust", "healthy", "sharp", "steep", "notable", "moderate",
+    "stable", "ample", "sizeable", "considerable", "muted", "subdued",
+    "elevated", "benign", "buoyant", "resilient", "comfortable", "adequate",
     "now", "then", "there", "here", "it", "its",
 }
 # Verbs and nouns that turn a level into a rate of change.
@@ -146,7 +148,13 @@ def phrase_for(text: str, value_start: int, claimed: list[tuple[int, int]],
             first, last = start, end
             right_token = low
             continue
-        if low in STOPPERS or low in BRIDGE and low not in INTERNAL:
+        # "a modest growth of 1.6 per cent" leaves us holding only "growth",
+        # which names nothing.  While that is all we have, keep stepping over
+        # adjectives and verbs to reach the noun the growth is *of*.
+        if low in STOPPERS or (low in BRIDGE and low not in INTERNAL):
+            if all(w.lower() in DERIVATIVE for w in words):
+                right_token = low
+                continue
             break
         words.append(token)
         first = start

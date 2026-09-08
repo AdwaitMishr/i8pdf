@@ -43,6 +43,8 @@ _PARA_OUTDENT = 10.0     # how far left a continuation line may start
 _PARA_INDENT = 26.0      # how far right it may start (hanging indents, bullets)
 _WRAP_SLACK_FRAC = 0.12  # tolerance when deciding a line reached the margin
 _CELL_GAP = 7.0          # horizontal gap that starts a new cell on the same line
+_CONTINUATION_STARTS = "₹$€£"
+_MONEY_START = re.compile(r"(?:Rs\.?|INR|USD|US\$)\s*[\d(]")
 
 LEFT, RIGHT, FULL = 0, 1, 2
 # Two levels of splitting cover imposed spreads (2 pages x 2 columns).
@@ -424,7 +426,25 @@ def _continues(prev: VisualLine, cur: VisualLine, para_x0: float,
         return False
     # Did the previous line run to the margin (wrapped) or stop short (row end)?
     slack = max(edge - prev.x0, 1.0) * _WRAP_SLACK_FRAC
-    return prev.x1 >= edge - slack
+    if prev.x1 >= edge - slack:
+        return True
+    return _reads_as_continuation(prev.text, cur.text)
+
+
+def _reads_as_continuation(prev: str, cur: str) -> bool:
+    """Fallback for sparse pages, where nothing reaches a right margin.
+
+    Grammar rather than geometry: a line that ends mid-clause followed by one
+    that starts mid-clause is one sentence. Both tests are needed -- requiring
+    the previous line to end in a letter is what keeps table rows, which end in
+    a number, from being glued together.
+    """
+    prev, cur = prev.rstrip(), cur.lstrip()
+    if not prev or not cur or prev[-1] in ".!?:;)]":
+        return False
+    if not (prev[-1].isalpha() or prev[-1] == ","):
+        return False
+    return cur[0].islower() or cur[0] in _CONTINUATION_STARTS or _MONEY_START.match(cur)
 
 
 # --------------------------------------------------------------------------
