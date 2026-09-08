@@ -42,6 +42,7 @@ _PARA_OVERLAP = 0.5      # bboxes may overlap this much and still be separate li
 _PARA_OUTDENT = 10.0     # how far left a continuation line may start
 _PARA_INDENT = 26.0      # how far right it may start (hanging indents, bullets)
 _WRAP_SLACK_FRAC = 0.12  # tolerance when deciding a line reached the margin
+_CELL_GAP = 7.0          # horizontal gap that starts a new cell on the same line
 
 LEFT, RIGHT, FULL = 0, 1, 2
 # Two levels of splitting cover imposed spreads (2 pages x 2 columns).
@@ -69,11 +70,32 @@ class Line:
 
 
 @dataclass
+class Cell:
+    """A run of text separated from its neighbours by a visible gap.
+
+    Slides and tables put a value in one cell and its label in another, on a
+    different line but the same horizontal position.  Keeping cell geometry --
+    with offsets into the page text -- is what lets the extractor reconnect them
+    without inventing text that is not on the page.
+    """
+    text: str
+    start: int          # offset into Page.text
+    end: int
+    x0: float
+    x1: float
+    y0: float
+    y1: float
+    line: int           # index of the visual line this cell belongs to
+    numeric: bool
+
+
+@dataclass
 class Page:
     page_no: int                        # 1-indexed position within this PDF
     text: str                           # normalised; fact offsets index into this
     n_columns: int
     printed_label: str | None = None    # page number printed by the publisher
+    cells: list["Cell"] = field(default_factory=list)
 
 
 @dataclass
@@ -268,6 +290,13 @@ def _is_tabular(text: str) -> bool:
 
 
 @dataclass
+class Fragment:
+    text: str
+    x0: float
+    x1: float
+
+
+@dataclass
 class VisualLine:
     """One rendered line of text, after side-by-side fragments are rejoined."""
     x0: float
@@ -276,6 +305,7 @@ class VisualLine:
     y1: float
     text: str
     column: int
+    cells: list[Fragment] = field(default_factory=list)
 
     @property
     def height(self) -> float:
@@ -302,12 +332,19 @@ def _visual_lines(ordered: list[Line], column_of: dict[int, int]) -> list[Visual
         if (prev is not None and prev.column == column
                 and overlap >= 0.5 * min(prev.height, line.y1 - line.y0)
                 and line.x0 >= prev.x1 - 2.0):
+            # A visible gap starts a new cell; a small one continues the current.
+            if line.x0 - prev.x1 > _CELL_GAP:
+                prev.cells.append(Fragment(text, line.x0, line.x1))
+            else:
+                prev.cells[-1].text = prev.cells[-1].text.rstrip() + " " + text
+                prev.cells[-1].x1 = line.x1
             prev.text = prev.text.rstrip() + " " + text
             prev.x1 = max(prev.x1, line.x1)
             prev.y0 = min(prev.y0, line.y0)
             prev.y1 = max(prev.y1, line.y1)
         else:
-            out.append(VisualLine(line.x0, line.y0, line.x1, line.y1, text, column))
+            out.append(VisualLine(line.x0, line.y0, line.x1, line.y1, text, column,
+                                  [Fragment(text, line.x0, line.x1)]))
     return out
 
 
@@ -323,44 +360,55 @@ def _column_right_edges(lines: list[VisualLine]) -> dict[int, float]:
     return edges
 
 
-def _merge_paragraphs(lines: list[VisualLine], right_edges: dict[int, float]) -> list[str]:
+def _merge_paragraphs(lines: list[VisualLine]) -> tuple[list[str], list[tuple[int, int]]]:
     """Glue consecutive visual lines back into paragraphs.
 
     A line only continues the previous one when the previous line reached the
     column's right margin -- i.e. the text wrapped.  That test is what keeps
     table rows, which stop short, from being welded into one blob, while still
     rejoining prose that the PDF stores one line at a time.
+
+    Returns the paragraphs and, for each input line, ``(paragraph index, offset
+    within that paragraph)`` so cell offsets survive the reassembly.
     """
+    right_edges = _column_right_edges(lines)
     paragraphs: list[str] = []
-    buf: list[str] = []
+    placements: list[tuple[int, int]] = []
+    current = ""
     prev: VisualLine | None = None
     para_x0 = 0.0
 
     def flush() -> None:
-        if buf:
-            paragraphs.append(" ".join(buf).strip())
-            buf.clear()
+        nonlocal current
+        if current:
+            paragraphs.append(current)
+            current = ""
 
     for line in lines:
         if prev is None or not _continues(prev, line, para_x0, right_edges):
             flush()
             para_x0 = line.x0
+            offset = 0
+            current = line.text
         else:
             para_x0 = min(para_x0, line.x0)
-            tail = buf[-1].rstrip()
             # A trailing hyphen before a lowercase continuation is a soft break.
-            if tail.endswith("-") and line.text[:1].islower():
-                buf[-1] = tail[:-1] + line.text
-                prev = line
-                continue
-        buf.append(line.text)
+            if current.endswith("-") and line.text[:1].islower():
+                current = current[:-1]
+                offset = len(current)
+            else:
+                current += " "
+                offset = len(current)
+            current += line.text
+        placements.append((len(paragraphs), offset))
         prev = line
     flush()
-    return paragraphs
+    return paragraphs, placements
 
 
 def _continues(prev: VisualLine, cur: VisualLine, para_x0: float,
                right_edges: dict[int, float]) -> bool:
+    """Is ``cur`` the next wrapped line of the paragraph ``prev`` belongs to?"""
     if prev.column != cur.column:
         return False
     height = min(prev.height, cur.height)
@@ -382,6 +430,36 @@ def _continues(prev: VisualLine, cur: VisualLine, para_x0: float,
 # --------------------------------------------------------------------------
 # Document assembly
 # --------------------------------------------------------------------------
+
+_CELL_NUMERIC = re.compile(r"^[(\[]?[₹$€£]?\s?-?[\d,]+(?:\.\d+)?\)?\s*(?:%|[A-Za-z]{1,8})?\)?$")
+
+
+def _locate_cells(lines: list[VisualLine], paragraphs: list[str],
+                  placements: list[tuple[int, int]]) -> list[Cell]:
+    """Map every cell to its exact span in the assembled page text."""
+    starts: list[int] = []
+    running = 0
+    for para in paragraphs:
+        starts.append(running)
+        running += len(para) + 2          # paragraphs are joined by a blank line
+    cells: list[Cell] = []
+    for index, (line, (para_index, offset)) in enumerate(zip(lines, placements)):
+        if para_index >= len(starts):
+            continue
+        base = starts[para_index] + offset
+        cursor = 0
+        for cell in line.cells:
+            found = line.text.find(cell.text, cursor)
+            if found < 0:
+                continue
+            cursor = found + len(cell.text)
+            cells.append(Cell(
+                text=cell.text, start=base + found, end=base + found + len(cell.text),
+                x0=cell.x0, x1=cell.x1, y0=line.y0, y1=line.y1, line=index,
+                numeric=bool(_CELL_NUMERIC.match(cell.text.strip())),
+            ))
+    return cells
+
 
 _PRINTED_LABEL = re.compile(r"^\s*(?:page\s+)?([0-9]{1,4}|[ivxlcIVXLC]{1,7})\s*$")
 
@@ -414,8 +492,8 @@ def _page_lines(page: pymupdf.Page) -> list[Line]:
         if block.get("type") != 0:
             continue
         for line in block.get("lines", []):
-            text = "".join(span["text"] for span in line.get("spans", []))
-            if len(text.strip()) < _MIN_LINE_CHARS:
+            text = normalise("".join(span["text"] for span in line.get("spans", [])))
+            if len(text) < _MIN_LINE_CHARS:
                 continue
             x0, y0, x1, y1 = line["bbox"]
             lines.append(Line(x0, y0, x1, y1, text))
@@ -437,13 +515,14 @@ def read_pdf(path: str | Path, doc_id: str | None = None) -> Document:
             ordered, groups, n_cols = _layout(lines, rect.width, rect.height)
             column_of = {id(lines[i]): column for i, column in groups.items()}
             visual = _visual_lines(ordered, column_of)
-            paragraphs = _merge_paragraphs(visual, _column_right_edges(visual))
-            text = normalise("\n\n".join(filter(None, (normalise(p) for p in paragraphs))))
+            paragraphs, placements = _merge_paragraphs(visual)
+            text = "\n\n".join(paragraphs)
             pages.append(Page(
                 page_no=index,
                 text=text,
                 n_columns=n_cols,
                 printed_label=_printed_label(lines, rect.height),
+                cells=_locate_cells(visual, paragraphs, placements),
             ))
 
     title = (meta.get("title") or "").strip() or path.stem

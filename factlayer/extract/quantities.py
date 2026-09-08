@@ -85,11 +85,31 @@ class UnitContext:
     percent: bool = False
 
 
+def _is_declaration(text: str, m: re.Match) -> bool:
+    """Is this match a unit *declaration* rather than a value written in prose?
+
+    A declaration is parenthesised -- "(₹ in Million)" -- or stands alone as its
+    own line or cell, like the "₹ Cr" header above a column.  Without this test a
+    rupee figure anywhere on the page would silently re-unit every bare number
+    near it.
+    """
+    before, after = text[:m.start()], text[m.end():]
+    if before.rstrip().endswith("(") and after.lstrip().startswith(")"):
+        return True
+    if m.group().strip().startswith("(") and m.group().strip().endswith(")"):
+        return True
+    line_start = max(before.rfind("\n"), before.rfind("  ")) + 1
+    line_end = m.end() + min((i for i in (after.find("\n"), after.find("  "))
+                              if i >= 0), default=len(after))
+    return text[line_start:line_end].strip() == m.group().strip()
+
+
 def find_unit_context(text: str) -> UnitContext:
-    """Read a declared unit such as ``(₹ in Million)`` or ``₹ Cr`` from ``text``."""
+    """Read a declared unit such as ``(₹ in Million)`` or a standalone ``₹ Cr``."""
     if _PERCENT_CONTEXT.search(text):
         return UnitContext(percent=True)
-    m = _UNIT_CONTEXT.search(text)
+    m = next((hit for hit in _UNIT_CONTEXT.finditer(text) if _is_declaration(text, hit)),
+             None)
     if not m:
         return UnitContext()
     sym = m.group("sym") or m.group("sym2")
@@ -190,6 +210,9 @@ def find_quantities(text: str, skip: list[tuple[int, int]] | None = None,
 
         # A bare small number carries no comparable meaning on its own.
         if unit == COUNT and scale == 1.0 and magnitude < 100:
+            continue
+        # "(1)", "(2)" after a heading are footnote markers, not values.
+        if opened and closed and scale == 1.0 and magnitude < 10 and "." not in num:
             continue
 
         # Accounting convention: a value wrapped in parentheses is negative.

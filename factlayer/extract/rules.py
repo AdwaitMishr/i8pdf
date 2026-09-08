@@ -11,7 +11,9 @@ import re
 from dataclasses import dataclass
 
 from ..models import Fact
+from ..ingest.pdf import Cell
 from ..ingest.segment import Unit, iter_units
+from .layout import cell_at, label_for
 from . import metrics as metric_mod
 from .periods import Period, find_periods
 from .qualifiers import Qualifier, find_qualifiers
@@ -93,6 +95,44 @@ def metric_key(phrase: str) -> str:
     return " ".join(words)
 
 
+def _content_words(phrase: str) -> list[str]:
+    return [w for w in phrase.split() if len(w) >= 3 and w.isalpha()]
+
+
+def _is_usable(phrase: str) -> bool:
+    """Does the phrase name anything at all?"""
+    return bool(_content_words(phrase))
+
+
+def _prefer_label(phrase: str) -> bool:
+    """Thin or punctuation-riddled phrases are worth checking the layout for.
+
+    "+ + Tons" and a bare "Tons" both come from a slide where the real caption
+    sits on another line, so they are a signal to go looking, not an answer.
+    """
+    words = phrase.split()
+    if any(not any(c.isalnum() for c in w) for w in words):
+        return True
+    return len(_content_words(phrase)) < 2
+
+
+def _metric_from_label(label_text: str) -> tuple[str, Period | None, dict[str, str]]:
+    """Read a caption as a metric, peeling off any period or qualifier it carries."""
+    periods = find_periods(label_text)
+    qualifiers = find_qualifiers(label_text)
+    masked = sorted([p.span for p in periods] + [q.span for q in qualifiers])
+    kept, cursor = [], 0
+    for s, e in masked:
+        kept.append(label_text[cursor:s])
+        cursor = e
+    kept.append(label_text[cursor:])
+    words = " ".join("".join(kept).split()).strip(" -:,.;/")
+    words = [w for w in words.split() if not w.strip("()").isdigit()]
+    words = metric_mod._clean(words)
+    context = {q.dimension: q.value for q in qualifiers}
+    return words, (periods[0] if periods else None), context
+
+
 def _display(q: Quantity) -> str:
     if q.raw:
         return q.raw
@@ -101,7 +141,8 @@ def _display(q: Quantity) -> str:
 
 
 def extract_from_unit(unit: Unit, page_no: int, ctx: ExtractionContext,
-                      unit_context: UnitContext) -> list[Fact]:
+                      unit_context: UnitContext, cells: list[Cell] | None = None
+                      ) -> list[Fact]:
     text = unit.text
     periods = find_periods(text)
     qualifiers = find_qualifiers(text)
@@ -119,11 +160,29 @@ def extract_from_unit(unit: Unit, page_no: int, ctx: ExtractionContext,
 
     for q in quantities:
         phrase = metric_mod.choose(text, q, claimed, topic)
-        if len(phrase.text) < _MIN_METRIC_CHARS:
+        metric = phrase.text
+        period = _period_for(text, periods, q, quantities)
+        context = _context_for(qualifiers, q)
+        label = None
+
+        # Slides and tables put the caption in a different cell; if the words
+        # around the number named nothing, go and find the caption by geometry.
+        if cells and _prefer_label(metric):
+            value_cell = cell_at(cells, unit.start + q.start, unit.start + q.end)
+            found = label_for(cells, value_cell) if value_cell else None
+            if found:
+                from_label, label_period, label_context = _metric_from_label(found.text)
+                if (_is_usable(from_label)
+                        and len(_content_words(from_label)) > len(_content_words(metric))):
+                    label, metric = found, from_label
+                    period = period or label_period
+                    context = {**label_context, **context}
+
+        metric = " ".join(w for w in metric.split() if any(c.isalnum() for c in w))
+        if len(metric) < _MIN_METRIC_CHARS or not _is_usable(metric):
             continue
         if topic is None:
-            topic = phrase.text
-        period = _period_for(text, periods, q, quantities)
+            topic = metric
         subject = phrase.subject_hint or ctx.subject
         confidence = round(min(0.99, q.confidence * (1.0 if period else 0.85)
                                * (1.0 if unit.kind == "sentence" else 0.9)), 3)
@@ -132,19 +191,23 @@ def extract_from_unit(unit: Unit, page_no: int, ctx: ExtractionContext,
             char_start=unit.start, char_end=unit.end, evidence=text,
             kind="quantity",
             subject=subject, subject_key=normalise_subject(subject),
-            metric=phrase.text, metric_key=metric_key(phrase.text),
+            metric=metric, metric_key=metric_key(metric),
+            label_text=label.text if label else None,
+            label_start=label.start if label else None,
+            label_end=label.end if label else None,
             value=q.value, unit=q.unit, display=_display(q),
             period_label=period.label if period else None,
             period_kind=period.kind if period else None,
             period_start=period.start if period else None,
             period_end=period.end if period else None,
-            context=_context_for(qualifiers, q),
+            context=context,
             confidence=confidence,
         ))
     return facts
 
 
-def extract_page(page_text: str, page_no: int, ctx: ExtractionContext) -> list[Fact]:
+def extract_page(page_text: str, page_no: int, ctx: ExtractionContext,
+                 cells: list[Cell] | None = None) -> list[Fact]:
     """Every quantity fact on one page, anchored to that page's character offsets."""
     facts: list[Fact] = []
     for unit in iter_units(page_text):
@@ -153,5 +216,5 @@ def extract_page(page_text: str, page_no: int, ctx: ExtractionContext) -> list[F
             # A table declares its unit in a header above the rows, not in them.
             window = page_text[max(0, unit.start - _UNIT_LOOKBACK):unit.start]
             inherited = find_unit_context(window)
-        facts.extend(extract_from_unit(unit, page_no, ctx, inherited))
+        facts.extend(extract_from_unit(unit, page_no, ctx, inherited, cells))
     return facts

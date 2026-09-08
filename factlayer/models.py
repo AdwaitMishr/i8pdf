@@ -50,6 +50,12 @@ class Fact:
     period_start: date | None = None
     period_end: date | None = None
 
+    # When the layout separated the number from its caption, the caption's own
+    # span on the same page.  Kept separate so evidence is never spliced.
+    label_text: str | None = None
+    label_start: int | None = None
+    label_end: int | None = None
+
     context: dict[str, str] = field(default_factory=dict)   # qualifier dimensions
     state: str | None = None                                # for kind == "state"
     effective_on: date | None = None
