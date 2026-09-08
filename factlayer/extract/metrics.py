@@ -28,6 +28,7 @@ BRIDGE = {
     "touched", "clocked", "delivered", "achieved", "generated", "printed", "marked",
     "estimated", "projected", "expected", "forecast", "seen", "placed", "put",
     "exceeded", "crossed", "surpassed", "implied", "implying", "including",
+    "compared", "comparing", "relative", "versus", "vis-a-vis", "alongside",
     "respectively", "only", "just", "also", "further", "some", "well", "still",
     "mostly", "largely", "broadly", "roughly", "generally", "relatively",
     "marginally", "slightly", "significantly", "substantially", "sharply",
@@ -50,6 +51,12 @@ GROWTH_WORDS = {
 DERIVATIVE = {
     "growth", "increase", "decrease", "decline", "rise", "fall", "drop", "reduction",
     "change", "margin", "share", "ratio", "rate", "contribution", "level", "value",
+}
+# Words too generic to identify a measure on their own.  A phrase made only of
+# these names nothing: "net growth", "total change".
+GENERIC_TOKENS = {
+    "total", "net", "gross", "value", "amount", "number", "share", "rate",
+    "growth", "income", "year", "change", "level", "index", "figure", "overall",
 }
 # Words that may sit inside a noun phrase but never start or end one.
 INTERNAL = {"of", "from", "in", "on", "for", "to", "and", "&", "per", "by", "the", "a"}

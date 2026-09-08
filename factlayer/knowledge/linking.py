@@ -20,6 +20,7 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import dataclass
 
+from ..extract.metrics import GENERIC_TOKENS
 from ..models import Fact, Relation
 from .concepts import ConceptIndex
 from .relations import CORROBORATES, DocumentInfo, classify, values_agree
@@ -27,8 +28,7 @@ from .relations import CORROBORATES, DocumentInfo, classify, values_agree
 # Guard against a pathological concept swamping the run.
 MAX_BLOCK = 220
 # Tokens too generic to justify a value bridge on their own.
-_GENERIC = {"total", "net", "gross", "value", "amount", "number", "share", "rate",
-            "growth", "income", "year", "change", "level"}
+_GENERIC = GENERIC_TOKENS
 # Suffixes that turn a measure into a derived one without changing what it is of.
 _DERIVED = {"growth", "rate", "level", "change", "averaged", "average"}
 # How many independent bridges before two wordings are treated as one concept.
@@ -38,6 +38,7 @@ ALIAS_EVIDENCE = 2
 MAX_BRIDGE_TOKENS = 6
 # How alike two phrases must be before their disagreement counts as a conflict.
 CONTRADICTION_SIMILARITY = 0.85
+MIN_CONFLICT_TOKENS = 2
 _BRIDGE_SIGNIFICANT = 3
 
 
@@ -143,9 +144,15 @@ def link(facts: list[Fact], docs: dict[str, DocumentInfo], concepts: ConceptInde
             for right in block[i + 1:]:
                 if not _same_subject(left, right):
                     continue
-                same_metric = (left.metric_key == right.metric_key
-                               or concepts.similarity(left.metric_key, right.metric_key)
-                               >= CONTRADICTION_SIMILARITY)
+                # A one-word metric is too generic to hang a conflict on: an
+                # "inflation" that is really a contribution share and an
+                # "inflation" that is really a rate are not the same claim.
+                same_metric = (
+                    min(len(left.metric_key.split()),
+                        len(right.metric_key.split())) >= MIN_CONFLICT_TOKENS
+                    and (left.metric_key == right.metric_key
+                         or concepts.similarity(left.metric_key, right.metric_key)
+                         >= CONTRADICTION_SIMILARITY))
                 keep(classify(left, right, docs[left.doc_id], docs[right.doc_id],
                               label, same_metric))
 

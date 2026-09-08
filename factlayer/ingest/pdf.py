@@ -395,8 +395,14 @@ def _merge_paragraphs(lines: list[VisualLine]) -> tuple[list[str], list[tuple[in
         else:
             para_x0 = min(para_x0, line.x0)
             # A trailing hyphen before a lowercase continuation is a soft break.
+            # The hyphen has to disappear from the previous line's cell too, or
+            # every cell offset recorded for that line is one character long.
             if current.endswith("-") and line.text[:1].islower():
                 current = current[:-1]
+                if prev is not None and prev.text.endswith("-"):
+                    prev.text = prev.text[:-1]
+                    if prev.cells and prev.cells[-1].text.endswith("-"):
+                        prev.cells[-1].text = prev.cells[-1].text[:-1]
                 offset = len(current)
             else:
                 current += " "

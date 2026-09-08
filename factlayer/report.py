@@ -7,6 +7,7 @@ command produces a report for any corpus that has been ingested.
 
 from __future__ import annotations
 
+import json
 import sqlite3
 import textwrap
 
@@ -55,6 +56,23 @@ def _pick(rows: list[sqlite3.Row], predicate=None) -> sqlite3.Row | None:
     return None
 
 
+def _stated_differently(store: Store, row: sqlite3.Row) -> bool:
+    """Do the two sides write the value in different units or scales?
+
+    "₹81,415.38 million" against "₹8,142 Cr" is the case the assignment asks
+    for: the same measure, expressed differently. Two figures that are both
+    plain percentages make the point far less clearly.
+    """
+    rows = store.conn.execute(
+        "SELECT display FROM facts WHERE fact_id IN (?, ?)",
+        (row["left_id"], row["right_id"])).fetchall()
+    if len(rows) != 2:
+        return False
+    shapes = ["".join(c for c in r["display"] if not c.isdigit() and c not in ".,-() ")
+              for r in rows]
+    return shapes[0].lower() != shapes[1].lower()
+
+
 def _same_metric(store: Store, row: sqlite3.Row) -> bool:
     """Both sides name the measure identically -- the clearest kind of comparison."""
     keys = store.conn.execute(
@@ -85,7 +103,10 @@ def render_cases(store: Store, collection: str | None = None) -> str:
     # 1 -- corroboration across documents, in different words.
     bridges = store.relations(kind="corroborates", cross_document=True,
                               collection=collection, limit=40)
-    case1 = _pick(bridges, lambda r: r["basis"] == "value_bridge") or _pick(bridges)
+    case1 = (_pick(bridges, lambda r: r["basis"] == "value_bridge"
+                   and _stated_differently(store, r))
+             or _pick(bridges, lambda r: r["basis"] == "value_bridge")
+             or _pick(bridges))
     out.append("## Case 1 — Corroborated across documents, expressed differently\n")
     out.append(_render(store, case1,
         "Same measure, different wording and different unit scale",
@@ -100,7 +121,14 @@ def render_cases(store: Store, collection: str | None = None) -> str:
                                 collection=collection, limit=60) or \
         store.relations(kind="contradicts", collection=collection, limit=60)
     case2 = _best(store, conflicts)
+    cross_document = any(True for _ in store.relations(
+        kind="contradicts", cross_document=True, collection=collection, limit=1))
     out.append("\n## Case 2 — A genuine or likely contradiction\n")
+    if not cross_document:
+        out.append("No cross-document contradiction survived the context checks in "
+                   "this corpus, which is itself a result: official publications "
+                   "largely draw on the same underlying statistics. The strongest "
+                   "surviving conflict is shown below.\n")
     out.append(_render(store, case2,
         "Same measure, same period, no differentiating context — different numbers",
         "The system only calls a pair contradictory after ruling out every context "
@@ -117,12 +145,17 @@ def render_cases(store: Store, collection: str | None = None) -> str:
                   + store.relations(kind="reconciled_by_context",
                                     collection=collection, limit=150))
     out.append("\n## Case 3 — An apparent contradiction explained by context\n")
-    shown = 0
+    shown, seen = 0, set()
     for dimension in _EXPLANATORY:
-        row = _best(store, reconciled,
-                    lambda r, d=dimension: f'"{d}"' in r["dimensions"])
-        if row is None:
+        # Prefer a pair that differs on this dimension *alone*, so each example
+        # isolates one reason rather than listing three at once.
+        row = (_best(store, reconciled,
+                     lambda r, d=dimension: json.loads(r["dimensions"]) == [d])
+               or _best(store, reconciled,
+                        lambda r, d=dimension: d in json.loads(r["dimensions"])))
+        if row is None or row["relation_id"] in seen:
             continue
+        seen.add(row["relation_id"])
         out.append(_render(store, row, f"Reconciled by *{dimension}*",
                            "The two figures differ, and the difference is accounted "
                            "for by the context each statement carries."))

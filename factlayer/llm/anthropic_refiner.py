@@ -27,6 +27,7 @@ import json
 import os
 from dataclasses import dataclass
 
+from ..extract.metrics import GENERIC_TOKENS
 from ..extract.periods import find_periods
 from ..extract.qualifiers import dimensions as lexicon_dimensions
 from ..extract.rules import metric_key
@@ -163,7 +164,8 @@ class AnthropicRefiner:
         weak = [f for f in facts
                 if f.confidence < CONFIDENCE_CEILING
                 or len(f.metric_key.split()) < 2
-                or f.period_label is None]
+                or f.period_label is None
+                or all(t in GENERIC_TOKENS for t in f.metric_key.split())]
         weak.sort(key=lambda f: (len(f.metric_key.split()), f.confidence))
         return weak[:self.max_facts]
 
