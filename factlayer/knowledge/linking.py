@@ -36,6 +36,8 @@ ALIAS_EVIDENCE = 2
 # A bridge rests on wording alone being uninformative, so both phrases must read
 # like metric names.  A long one is a mis-extracted clause, not a metric.
 MAX_BRIDGE_TOKENS = 6
+# How alike two phrases must be before their disagreement counts as a conflict.
+CONTRADICTION_SIMILARITY = 0.85
 _BRIDGE_SIGNIFICANT = 3
 
 
@@ -67,8 +69,22 @@ def _bridge_key(fact: Fact, docs: dict[str, DocumentInfo]) -> tuple | None:
     # the same bucket; the precision test then decides whether they really agree.
     exponent = len(f"{int(magnitude)}") if magnitude >= 1 else 0
     bucket = round(fact.value, _BRIDGE_SIGNIFICANT - exponent)
-    return (docs[fact.doc_id].collection, fact.subject_key, fact.unit,
+    subject = fact.subject_key if fact.subject_source == "sentence" else ""
+    return (docs[fact.doc_id].collection, subject, fact.unit,
             fact.period_label, bucket)
+
+
+def _same_subject(a: Fact, b: Fact) -> bool:
+    """Are these two facts about the same thing?
+
+    Document-level subject detection is unreliable on excerpted filings that
+    have no cover page, so it is not allowed to veto a comparison -- the
+    collection a document was ingested into carries that job.  A subject the
+    sentence itself named is trusted, and two of those must agree.
+    """
+    if a.subject_source == "sentence" and b.subject_source == "sentence":
+        return a.subject_key == b.subject_key
+    return True
 
 
 def _head(tokens: list[str]) -> str:
@@ -125,9 +141,13 @@ def link(facts: list[Fact], docs: dict[str, DocumentInfo], concepts: ConceptInde
             else block[0].metric
         for i, left in enumerate(block):
             for right in block[i + 1:]:
-                if left.subject_key != right.subject_key:
+                if not _same_subject(left, right):
                     continue
-                keep(classify(left, right, docs[left.doc_id], docs[right.doc_id], label))
+                same_metric = (left.metric_key == right.metric_key
+                               or concepts.similarity(left.metric_key, right.metric_key)
+                               >= CONTRADICTION_SIMILARITY)
+                keep(classify(left, right, docs[left.doc_id], docs[right.doc_id],
+                              label, same_metric))
 
     # The value bridge.
     buckets: dict[tuple, list[Fact]] = defaultdict(list)
@@ -141,6 +161,8 @@ def link(facts: list[Fact], docs: dict[str, DocumentInfo], concepts: ConceptInde
         for i, left in enumerate(bucket):
             for right in bucket[i + 1:]:
                 if left.concept_id == right.concept_id or left.doc_id == right.doc_id:
+                    continue
+                if not _same_subject(left, right):
                     continue
                 if not _bridgeable(left, right):
                     continue

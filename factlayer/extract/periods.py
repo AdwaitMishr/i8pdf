@@ -193,3 +193,31 @@ def find_periods(text: str) -> list[Period]:
             found.append(period)
             taken.append((s, e))
     return sorted(found, key=lambda p: p.span)
+
+
+def shift_back(period: Period, years: int = 1) -> Period:
+    """The same window one year earlier, for "in the previous year" references."""
+    def back(value: date | None) -> date | None:
+        if value is None:
+            return None
+        try:
+            return value.replace(year=value.year - years)
+        except ValueError:                      # 29 February
+            return value.replace(year=value.year - years, day=28)
+
+    label = period.label
+    if period.kind in ("fy", "quarter", "half") and "FY" in label:
+        head, _, year = label.rpartition("FY")
+        label = f"{head}FY{int(year) - years}"
+    elif period.kind == "cy":
+        label = f"CY{int(label[2:]) - years}"
+    elif period.kind == "quarter" and label[:4].isdigit():
+        label = f"{int(label[:4]) - years}{label[4:]}"
+    elif period.kind == "month":
+        year, _, month = label.partition("-")
+        label = f"{int(year) - years}-{month}"
+    elif period.kind == "asof":
+        shifted = back(period.start)
+        label = shifted.isoformat() if shifted else label
+    return Period(label, period.kind, back(period.start), back(period.end),
+                  period.raw, period.span)

@@ -40,6 +40,10 @@ class Fact:
     kind: str                        # "quantity" | "state"
     subject: str
     subject_key: str
+    # "sentence" when the text named the entity ("India's real GDP"), "document"
+    # when it fell back to the document-level guess.  Only sentence-level
+    # subjects are trusted enough to block a comparison.
+    subject_source: str
     metric: str                      # surface phrase, as written
     metric_key: str                  # normalised tokens, for concept induction
 

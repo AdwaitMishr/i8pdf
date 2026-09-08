@@ -146,8 +146,15 @@ def _cite(fact: Fact, doc: DocumentInfo) -> str:
 
 
 def classify(a: Fact, b: Fact, left: DocumentInfo, right: DocumentInfo,
-             concept_label: str) -> Relation | None:
-    """Judge one pair of facts, or return None when they are not comparable."""
+             concept_label: str, same_metric: bool = True) -> Relation | None:
+    """Judge one pair of facts, or return None when they are not comparable.
+
+    ``same_metric`` says whether the two phrases really name the same measure,
+    not merely one that clustered nearby.  Asserting a contradiction is the most
+    consequential thing this function does, so it is withheld unless that holds
+    and the two figures come from different pages -- two numbers under one label
+    on a single chart are separate series, not a disagreement.
+    """
     if a.unit != b.unit or a.value is None or b.value is None:
         return None
     if a.fact_id == b.fact_id:
@@ -195,6 +202,8 @@ def classify(a: Fact, b: Fact, left: DocumentInfo, right: DocumentInfo,
                     f"{_format_gap(a, b, gap)}, inside the tolerance implied by the "
                     f"precision each document states."),
             )
+        if not same_metric or (a.doc_id == b.doc_id and a.page_no == b.page_no):
+            return None
         return Relation(
             left_id=a.fact_id, right_id=b.fact_id,
             relation=CONTRADICTS,

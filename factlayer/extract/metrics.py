@@ -31,7 +31,8 @@ BRIDGE = {
     "respectively", "only", "just", "also", "further", "some", "well", "still",
     "mostly", "largely", "broadly", "roughly", "generally", "relatively",
     "marginally", "slightly", "significantly", "substantially", "sharply",
-    "modestly", "steadily", "gradually", "meanwhile", "overall",
+    "modestly", "steadily", "gradually", "meanwhile", "overall", "modest",
+    "strong", "robust", "healthy", "sharp", "steep", "notable", "moderate",
     "now", "then", "there", "here", "it", "its",
 }
 # Verbs and nouns that turn a level into a rate of change.

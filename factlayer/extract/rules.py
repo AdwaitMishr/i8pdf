@@ -15,7 +15,7 @@ from ..ingest.pdf import Cell
 from ..ingest.segment import Unit, iter_units
 from .layout import cell_at, column_headers_for, label_for
 from . import metrics as metric_mod
-from .periods import Period, find_periods
+from .periods import Period, find_periods, shift_back
 from .qualifiers import Qualifier, find_qualifiers
 from .quantities import Quantity, UnitContext, find_quantities, find_unit_context
 from .subjects import normalise_subject
@@ -51,6 +51,21 @@ _DENOMINATOR_LOOKBACK = 90
 _ATTACHES_PERIOD = re.compile(
     r"^[\s,]*(?:in|for|during|of|over|through|to|as\s+(?:of|at|on))\b[^.;:]{0,60}$",
     re.IGNORECASE)
+# "5.4 per cent in the previous year" is a claim about the year before the one
+# the sentence has been discussing, not about that year.
+_RELATIVE_BACK = re.compile(
+    r"^[\s,]*(?:in|from|over|during)?\s*(?:the\s+)?"
+    r"(?:previous|preceding|prior|last)\s+(?:year|fiscal|financial\s+year)"
+    r"|^[\s,]*a\s+year\s+(?:ago|earlier)", re.IGNORECASE)
+# A qualifier this far from the value, or across this many clause breaks, is
+# describing something else in the sentence.
+_QUALIFIER_RANGE = 100
+_QUALIFIER_COMMAS = 1
+# A parenthetical that carries its own number is an aside about that number:
+# in "increased to 4.6 percent (from 3.5 percent FY2024/25 average)" the period
+# belongs to the 3.5, and the 4.6 is left with no period at all -- which is the
+# honest answer.
+_PARENTHETICAL_PENALTY = 4.0
 
 
 @dataclass
@@ -60,14 +75,58 @@ class ExtractionContext:
     subject_key: str
 
 
-def _nearest(period_or_qual, quantity: Quantity):
+def _paren_depth(text: str, index: int) -> int:
+    return text.count("(", 0, index) - text.count(")", 0, index)
+
+
+def _enclosing_paren(text: str, index: int) -> tuple[int, int] | None:
+    """Span of the innermost parenthetical containing ``index``, if any."""
+    depth, start = 0, None
+    for i in range(index - 1, -1, -1):
+        if text[i] == ")":
+            depth += 1
+        elif text[i] == "(":
+            if depth == 0:
+                start = i
+                break
+            depth -= 1
+    if start is None:
+        return None
+    depth = 0
+    for i in range(index, len(text)):
+        if text[i] == "(":
+            depth += 1
+        elif text[i] == ")":
+            if depth == 0:
+                return start, i + 1
+            depth -= 1
+    return start, len(text)
+
+
+def _owned_by_other_value(text: str, span: tuple[int, int], q: Quantity,
+                          others: list[Quantity]) -> bool:
+    """Does ``span`` sit in a parenthetical belonging to a different value?"""
+    if _paren_depth(text, span[0]) <= _paren_depth(text, q.start):
+        return False
+    bounds = _enclosing_paren(text, span[0])
+    if bounds is None:
+        return False
+    return any(bounds[0] <= other.start < bounds[1]
+               for other in others if other is not q)
+
+
+def _nearest(text: str, period_or_qual, quantity: Quantity) -> float:
     """Distance from a span to a quantity, preferring what follows it closely."""
     s, e = period_or_qual.span
     if e <= quantity.start:
-        return quantity.start - e
-    if s >= quantity.end:
-        return (s - quantity.end) * 1.1     # a following mention is slightly weaker
-    return 0
+        distance = float(quantity.start - e)
+    elif s >= quantity.end:
+        distance = (s - quantity.end) * 1.1   # a following mention is weaker
+    else:
+        return 0.0
+    if _paren_depth(text, s) != _paren_depth(text, quantity.start):
+        distance *= _PARENTHETICAL_PENALTY
+    return distance
 
 
 def _period_for(text: str, periods: list[Period], q: Quantity,
@@ -82,8 +141,15 @@ def _period_for(text: str, periods: list[Period], q: Quantity,
     if not periods:
         return None
 
+    # If every period in the sentence belongs to some other value, this value
+    # simply has no stated period.  Saying so beats guessing.
+    candidates = [p for p in periods
+                  if not _owned_by_other_value(text, p.span, q, others)]
+    if not candidates:
+        return None
+
     def score(p: Period) -> float:
-        distance = _nearest(p, q)
+        distance = _nearest(text, p, q)
         if p.span[0] >= q.end:
             between = text[q.end:p.span[0]]
             blocked = any(q.end <= o.start < p.span[0] for o in others if o is not q)
@@ -91,10 +157,14 @@ def _period_for(text: str, periods: list[Period], q: Quantity,
                 return distance * 0.4
         return distance
 
-    return min(periods, key=score)
+    chosen = min(candidates, key=score)
+    if _RELATIVE_BACK.match(text[q.end:q.end + 40]):
+        return shift_back(chosen)
+    return chosen
 
 
-def _context_for(qualifiers: list[Qualifier], q: Quantity) -> dict[str, str]:
+def _context_for(text: str, qualifiers: list[Qualifier], q: Quantity,
+                 quantities: list[Quantity]) -> dict[str, str]:
     """Nearest qualifier per dimension, so one sentence can carry two bases.
 
     Ties are broken towards the more specific phrase, so "first advance
@@ -102,8 +172,16 @@ def _context_for(qualifiers: list[Qualifier], q: Quantity) -> dict[str, str]:
     """
     best: dict[str, tuple[float, str]] = {}
     for qual in qualifiers:
+        distance = _nearest(text, qual, q)
+        if distance > _QUALIFIER_RANGE:
+            continue
+        lo, hi = sorted((qual.span[1], q.start))
+        if text[lo:hi].count(",") > _QUALIFIER_COMMAS:
+            continue
+        if _owned_by_other_value(text, qual.span, q, quantities):
+            continue
         specificity = 10 * (len(qual.raw.split()) - 1)
-        score = _nearest(qual, q) - specificity
+        score = distance - specificity
         if qual.dimension not in best or score < best[qual.dimension][0]:
             best[qual.dimension] = (score, qual.value)
     return {dim: value for dim, (_, value) in best.items()}
@@ -221,7 +299,7 @@ def extract_from_unit(unit: Unit, page_no: int, ctx: ExtractionContext,
         phrase = metric_mod.choose(text, q, claimed, topic)
         metric = phrase.text
         period = _period_for(text, periods, q, quantities)
-        context = _context_for(qualifiers, q)
+        context = _context_for(text, qualifiers, q, quantities)
         label = None
         value_cell = (cell_at(cells, unit.start + q.start, unit.start + q.end)
                       if cells else None)
@@ -269,6 +347,7 @@ def extract_from_unit(unit: Unit, page_no: int, ctx: ExtractionContext,
             value_start=unit.start + q.start, value_end=unit.start + q.end,
             kind="quantity",
             subject=subject, subject_key=normalise_subject(subject),
+            subject_source="sentence" if phrase.subject_hint else "document",
             metric=metric, metric_key=metric_key(metric),
             label_text=label.text if label else None,
             label_start=label.start if label else None,

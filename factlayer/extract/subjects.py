@@ -34,6 +34,13 @@ _NOISE = {
 }
 # Section markers ("II.", "IV") are not entities.
 _ROMAN = re.compile(r"^[IVXLCivxlc]+\.?$")
+# A name carrying a legal suffix is almost certainly the entity a filing is
+# about, which frequency alone cannot tell you -- "India" appears constantly in
+# an Indian company's annual report without being its subject.
+_LEGAL_ENTITY = re.compile(
+    r"\b([A-Z][A-Za-z&.\-]*(?:\s+[A-Z][A-Za-z&.\-]*){0,3})\s+"
+    r"(?:Limited|Ltd\.?|Inc\.?|Incorporated|Corporation|Corp\.?|PLC|LLP|LLC)\b")
+_LEGAL_WEIGHT = 6
 _COVER_PAGES = 3
 _MIN_LENGTH = 3
 
@@ -75,6 +82,11 @@ def detect_subject(title: str, page_texts: list[str]) -> str | None:
     scores: Counter = Counter()
     for phrase, n in _candidates(title or "").items():
         scores[phrase] += 8 * n
+    for text in page_texts:
+        for m in _LEGAL_ENTITY.finditer(text):
+            name = " ".join(m.group(1).split()[-3:])
+            if name and not all(w.lower() in _NOISE for w in name.split()):
+                scores[name] += _LEGAL_WEIGHT
     # Front matter names the issuer; the body then says "the Company".  This is
     # only a hint: detection is unreliable on excerpted documents that have no
     # cover page, so comparability never depends on it (see ``collection``).
