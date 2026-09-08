@@ -153,8 +153,11 @@ def link(facts: list[Fact], docs: dict[str, DocumentInfo], concepts: ConceptInde
                     and (left.metric_key == right.metric_key
                          or concepts.similarity(left.metric_key, right.metric_key)
                          >= CONTRADICTION_SIMILARITY))
+                # When both sides use the same words, quote those words rather
+                # than the concept's label: it is what the documents actually say.
+                name = left.metric if left.metric_key == right.metric_key else label
                 keep(classify(left, right, docs[left.doc_id], docs[right.doc_id],
-                              label, same_metric))
+                              name, same_metric))
 
     # The value bridge.
     buckets: dict[tuple, list[Fact]] = defaultdict(list)

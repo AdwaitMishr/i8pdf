@@ -28,17 +28,27 @@ _MIN_IDF_DOCS = 4
 @dataclass
 class Concept:
     concept_id: str
-    label: str                                    # most common surface form
-    canonical_key: str = ""                       # key of the most common surface
-    keys: set[str] = field(default_factory=set)   # normalised metric keys
-    surfaces: Counter = field(default_factory=Counter)
-    key_counts: Counter = field(default_factory=Counter)
+    label: str                                    # how this concept is named
+    canonical_key: str = ""                       # its most-used normalised key
+    keys: set[str] = field(default_factory=set)   # every key that joined it
+    # Surfaces are counted per key, not pooled: a concept that has absorbed
+    # "revenue from operations" and a stray "foreign operations" must be named
+    # after the phrase that dominates it, not after whichever surface happens to
+    # be most frequent across all of them.
+    surfaces: dict[str, Counter] = field(default_factory=dict)
+
+    def observe(self, metric_key: str, surface: str) -> None:
+        self.keys.add(metric_key)
+        self.surfaces.setdefault(metric_key, Counter())[surface] += 1
+
+    def uses(self, metric_key: str) -> int:
+        return sum(self.surfaces.get(metric_key, Counter()).values())
 
     def relabel(self) -> None:
-        if self.surfaces:
-            self.label = self.surfaces.most_common(1)[0][0]
-        if self.key_counts:
-            self.canonical_key = self.key_counts.most_common(1)[0][0]
+        if not self.surfaces:
+            return
+        self.canonical_key = max(self.surfaces, key=self.uses)
+        self.label = self.surfaces[self.canonical_key].most_common(1)[0][0]
 
 
 def _new_id(key: str) -> str:
@@ -94,8 +104,9 @@ class ConceptIndex:
             metric_key = surface.lower()
         known = self.of_key.get(metric_key)
         if known:
-            self.concepts[known].surfaces[surface] += 1
-            self.concepts[known].relabel()
+            concept = self.concepts[known]
+            concept.observe(metric_key, surface)
+            concept.relabel()
             return known
 
         self.observe(metric_key)
@@ -112,9 +123,7 @@ class ConceptIndex:
             best_id = _new_id(metric_key)
             self.concepts[best_id] = Concept(best_id, surface, metric_key)
         concept = self.concepts[best_id]
-        concept.keys.add(metric_key)
-        concept.surfaces[surface] += 1
-        concept.key_counts[metric_key] += 1
+        concept.observe(metric_key, surface)
         concept.relabel()
         self.of_key[metric_key] = best_id
         for token in set(concept.canonical_key.split()):
@@ -141,8 +150,8 @@ class ConceptIndex:
             return a or b
         keeper, absorbed = self.concepts[a], self.concepts.pop(b)
         keeper.keys |= absorbed.keys
-        keeper.surfaces.update(absorbed.surfaces)
-        keeper.key_counts.update(absorbed.key_counts)
+        for key, counter in absorbed.surfaces.items():
+            keeper.surfaces.setdefault(key, Counter()).update(counter)
         keeper.relabel()
         for key in absorbed.keys:
             self.of_key[key] = keeper.concept_id

@@ -61,9 +61,14 @@ class Difference:
         table = _READABLE.get(self.dimension, {})
         left = table.get(self.left or "", self.left or "no stated basis")
         right = table.get(self.right or "", self.right or "no stated basis")
-        return (f"{left_doc} reports {left} while {right_doc} reports {right}"
-                if self.dimension != "period"
-                else f"{left_doc} covers {self.left} while {right_doc} covers {self.right}")
+        # Both figures often come from one document; naming it twice reads as a
+        # mistake, so say which statement is which instead.
+        first, second = ((left_doc, right_doc) if left_doc != right_doc
+                         else ("the first statement", "the second"))
+        verb = "covers" if self.dimension == "period" else "reports"
+        if self.dimension == "period":
+            left, right = self.left, self.right
+        return f"{first} {verb} {left} while {second} {verb} {right}"
 
 
 @dataclass(frozen=True)

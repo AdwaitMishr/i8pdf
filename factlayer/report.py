@@ -137,16 +137,15 @@ def render_cases(store: Store, collection: str | None = None) -> str:
         "_No contradiction survived the context checks._\n")
 
     # 3 -- an apparent conflict that context explains.
-    # Some of the most instructive reconciliations are inside one document -- a
-    # filing states the same figure on a standalone and a consolidated basis in
-    # consecutive sentences -- so both scopes are considered, cross-document first.
-    reconciled = (store.relations(kind="reconciled_by_context", cross_document=True,
-                                  collection=collection, limit=150)
-                  + store.relations(kind="reconciled_by_context",
-                                    collection=collection, limit=150))
+
     out.append("\n## Case 3 — An apparent contradiction explained by context\n")
     shown, seen = 0, set()
     for dimension in _EXPLANATORY:
+        # Both scopes are in play: some of the most instructive reconciliations
+        # sit inside one document, where a filing states the same figure on a
+        # standalone and a consolidated basis in consecutive sentences.
+        reconciled = store.relations(kind="reconciled_by_context", collection=collection,
+                                     dimension=dimension, limit=60)
         # Prefer a pair that differs on this dimension *alone*, so each example
         # isolates one reason rather than listing three at once.
         row = (_best(store, reconciled,
