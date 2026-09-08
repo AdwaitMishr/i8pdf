@@ -27,7 +27,11 @@ BRIDGE = {
     "posted", "reporting", "came", "remained", "remaining", "stayed", "hit",
     "touched", "clocked", "delivered", "achieved", "generated", "printed", "marked",
     "estimated", "projected", "expected", "forecast", "seen", "placed", "put",
+    "exceeded", "crossed", "surpassed", "implied", "implying", "including",
     "respectively", "only", "just", "also", "further", "some", "well", "still",
+    "mostly", "largely", "broadly", "roughly", "generally", "relatively",
+    "marginally", "slightly", "significantly", "substantially", "sharply",
+    "modestly", "steadily", "gradually", "meanwhile", "overall",
     "now", "then", "there", "here", "it", "its",
 }
 # Verbs and nouns that turn a level into a rate of change.
@@ -52,10 +56,12 @@ STOPPERS = {
     "those", "which", "who", "while", "whereas", "although", "though", "because",
     "if", "when", "after", "before", "however", "thereby", "we", "they", "company",
     "such", "namely", "etc", "e.g", "i.e", "viz", "including",
+    # Unit words belong to the quantity, never inside the metric phrase.
+    "cent", "percent", "percentage", "crore", "lakh", "million", "billion",
 }
 _PUNCT = set(",;:()[]{}—–/\"")
 _TOKEN = re.compile(r"[A-Za-z][A-Za-z.'’&-]*|[^\sA-Za-z]")
-_MAX_TOKENS = 9
+_MAX_TOKENS = 7
 # "India's real GDP" names its owner; that owner is the subject, not the metric.
 _POSSESSIVE = re.compile(r"^(.*?)['’]s$")
 
@@ -99,6 +105,7 @@ def phrase_for(text: str, value_start: int, claimed: list[tuple[int, int]],
     collecting = False
     first, last = None, None
     owner: str | None = None
+    right_token = ""      # the token just to the right of the one being read
 
     for token, start, end in reversed(toks):
         low = token.lower()
@@ -107,6 +114,7 @@ def phrase_for(text: str, value_start: int, claimed: list[tuple[int, int]],
         if token in _PUNCT:
             if collecting:
                 break
+            right_token = low
             continue
         owner_match = _POSSESSIVE.match(token)
         if owner_match and owner_match.group(1):
@@ -115,7 +123,9 @@ def phrase_for(text: str, value_start: int, claimed: list[tuple[int, int]],
                 break
             continue
         if low in GROWTH_WORDS:
-            is_rate = True
+            # "grew by 6.5 per cent" is a rate; "declined to 0.6 per cent of GDP"
+            # is a level the measure fell to.  The preposition decides.
+            is_rate = right_token != "to"
             if low in DERIVATIVE and not collecting:
                 collecting = True
                 words.append(token)
@@ -124,18 +134,23 @@ def phrase_for(text: str, value_start: int, claimed: list[tuple[int, int]],
                 continue
             if collecting:
                 break
+            right_token = low
             continue
         if not collecting:
             if low in BRIDGE or low in STOPPERS:
+                right_token = low
                 continue
             collecting = True
             words.append(token)
             first, last = start, end
+            right_token = low
             continue
         if low in STOPPERS or low in BRIDGE and low not in INTERNAL:
             break
         words.append(token)
         first = start
+        # Every word counts towards the cap, including connectives, so a runaway
+        # clause cannot masquerade as a metric name.
         if len(words) >= _MAX_TOKENS:
             break
 

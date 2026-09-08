@@ -74,6 +74,7 @@ class Quantity:
     display_scale: str     # scale word as written ("million", "Cr", "")
     currency: str | None
     confidence: float
+    precision: float    # size of the last reported digit, in ``unit``
 
 
 @dataclass(frozen=True)
@@ -218,11 +219,16 @@ def find_quantities(text: str, skip: list[tuple[int, int]] | None = None,
         # Accounting convention: a value wrapped in parentheses is negative.
         signed = -magnitude if (opened and closed) else magnitude
         raw_start = m.start() if (opened or sym) else s
+        # "₹8,142 Cr" is reported to the nearest crore; "₹81,415.38 million" to
+        # the nearest ten thousand.  Carrying that forward lets the reasoning
+        # layer ask whether two figures agree *within the precision each states*.
+        decimals = len(num.partition(".")[2])
         out.append(Quantity(
             raw=text[raw_start:pos].strip(),
             start=raw_start, end=pos,
             value=signed * scale, unit=unit,
             display_value=signed, display_scale=scale_word,
             currency=currency, confidence=confidence,
+            precision=abs(10.0 ** -decimals * scale),
         ))
     return out

@@ -31,9 +31,11 @@ class Fact:
 
     doc_id: str
     page_no: int
-    char_start: int
+    char_start: int                  # evidence span: the whole sentence or row
     char_end: int
-    evidence: str                    # verbatim text of the sentence or row
+    evidence: str                    # verbatim text of that span
+    value_start: int                 # the number's own span, inside the evidence
+    value_end: int
 
     kind: str                        # "quantity" | "state"
     subject: str
@@ -44,6 +46,7 @@ class Fact:
     value: float | None = None       # normalised into ``unit``
     unit: str = "unknown"
     display: str = ""                # value as written, e.g. "₹ 74,540.82 million"
+    precision: float = 0.0           # size of the last reported digit, in ``unit``
 
     period_label: str | None = None
     period_kind: str | None = None
@@ -68,10 +71,12 @@ class Fact:
     def __post_init__(self) -> None:
         if not self.fact_id:
             self.fact_id = self.make_id(
-                self.doc_id, self.page_no, self.char_start, self.char_end, self.metric)
+                self.doc_id, self.page_no, self.value_start, self.value_end, self.metric)
 
     @staticmethod
     def make_id(doc_id: str, page_no: int, start: int, end: int, metric: str) -> str:
+        # Keyed on the *value's* span, not the sentence's: one sentence often
+        # states several figures for the same metric, and they are distinct facts.
         raw = f"{doc_id}|{page_no}|{start}|{end}|{metric}"
         return hashlib.sha1(raw.encode()).hexdigest()[:16]
 

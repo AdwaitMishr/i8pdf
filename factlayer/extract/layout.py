@@ -20,6 +20,11 @@ _Y_WINDOW = 3.5
 # A label is mostly letters; "YoY: 11.5%" is another value, not a caption.
 _MIN_ALPHA_RATIO = 0.6
 _MIN_OVERLAP = 0.15
+# A caption is short; anything longer is running prose that happens to be nearby.
+_MAX_LABEL_WORDS = 12
+# A column header may sit well above its cells, but must cover them horizontally.
+_HEADER_Y_WINDOW = 16.0
+_HEADER_COVERAGE = 0.5
 
 
 @dataclass(frozen=True)
@@ -38,9 +43,12 @@ def _alpha_ratio(text: str) -> float:
 
 
 def is_label(cell: Cell) -> bool:
-    if cell.numeric or _alpha_ratio(cell.text) < _MIN_ALPHA_RATIO:
+    words = cell.text.split()
+    if cell.numeric or not words or len(words) > _MAX_LABEL_WORDS:
         return False
-    return any(len(w) >= 3 and w.isalpha() for w in cell.text.split())
+    if _alpha_ratio(cell.text) < _MIN_ALPHA_RATIO:
+        return False
+    return any(len(w) >= 3 and w.isalpha() for w in words)
 
 
 def _x_overlap(a: Cell, b: Cell) -> float:
@@ -85,3 +93,26 @@ def label_for(cells: list[Cell], value: Cell) -> Label | None:
         if best is None or score > best.score:
             best = Label(cell.text, cell.start, cell.end, score)
     return best
+
+
+def column_headers_for(cells: list[Cell], value: Cell) -> list[Cell]:
+    """Cells above ``value`` that head its column, nearest first.
+
+    A financial table states the period and the consolidation basis once, in the
+    header row, and then prints bare numbers underneath.  Walking up the column
+    is how those cells get their context back.
+    """
+    height = max(value.y1 - value.y0, 1.0)
+    width = max(value.x1 - value.x0, 1.0)
+    out: list[tuple[float, Cell]] = []
+    for cell in cells:
+        if cell.line == value.line or cell.y1 > value.y0:
+            continue
+        gap = value.y0 - cell.y1
+        if gap > height * _HEADER_Y_WINDOW:
+            continue
+        covered = min(cell.x1, value.x1) - max(cell.x0, value.x0)
+        if covered / width < _HEADER_COVERAGE:
+            continue
+        out.append((gap, cell))
+    return [cell for _, cell in sorted(out, key=lambda pair: pair[0])]
