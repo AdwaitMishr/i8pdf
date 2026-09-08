@@ -60,6 +60,10 @@ def _candidates(text: str) -> Counter:
             continue
         if any(_ROMAN.match(w) for w in words):
             continue
+        # A shouted banner line ("SYNTHETIC TEST FIXTURE") is not an entity,
+        # while a short acronym ("IMF", "RBI") may well be.
+        if all(w.isupper() for w in words) and any(len(w) >= 5 for w in words):
+            continue
         if not normalise_subject(" ".join(words)):
             continue
         counts[" ".join(words)] += 1

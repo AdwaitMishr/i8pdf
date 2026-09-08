@@ -1,6 +1,6 @@
 # Four cases, selected from the knowledge layer
 
-Generated from 8 documents, 513 pages, 4799 facts and 8293 relationships.
+Generated from 8 documents, 513 pages, 4799 facts and 8292 relationships.
 
 Every case below was chosen by querying for the *shape* of that case, not by naming a document or a figure.
 
