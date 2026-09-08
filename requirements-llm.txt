@@ -1,0 +1,4 @@
+# Optional. Only needed when FACTLAYER_LLM=anthropic.
+# The system runs fully without this file installed.
+-r requirements.txt
+anthropic>=1.0.0

@@ -1,0 +1,10 @@
+# Core pipeline
+pymupdf==1.28.2      # layout-aware PDF text extraction (word/block geometry)
+
+# API + UI
+fastapi==0.121.2
+uvicorn==0.41.0
+python-multipart==0.0.20
+
+# Tests
+pytest==9.0.2

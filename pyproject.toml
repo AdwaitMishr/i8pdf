@@ -1,0 +1,12 @@
+[project]
+name = "factlayer"
+version = "0.1.0"
+description = "A fact knowledge layer: grounded fact extraction and cross-document reconciliation for PDFs"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.setuptools.packages.find]
+include = ["factlayer*"]
