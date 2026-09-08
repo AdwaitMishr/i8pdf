@@ -7,6 +7,7 @@ import json
 import sys
 from pathlib import Path
 
+from .llm import build_refiner
 from .pipeline import ingest
 from .store.db import Store
 
@@ -30,12 +31,17 @@ def cmd_ingest(args: argparse.Namespace) -> int:
     if not targets:
         print("no PDFs found", file=sys.stderr)
         return 1
+    refiner = build_refiner() if not args.no_llm else None
+    if refiner is not None:
+        print(f"llm refinement enabled ({refiner.model})")
     for path in targets:
         report = ingest(store, path, _collection_for(path, args.collection),
-                        subject=args.subject)
+                        subject=args.subject, refiner=refiner)
         if report.skipped:
             print(f"skip  {path.name}: {report.reason}")
             continue
+        if refiner is not None:
+            print(f"      llm: {refiner.stats.as_dict()}")
         print(f"ok    {path.name}  [{report.collection}] subject={report.subject!r} "
               f"{report.n_pages}p  {report.n_facts} facts  "
               f"{report.n_relations} relations  {report.seconds:.1f}s")
@@ -81,6 +87,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("paths", nargs="+")
     p.add_argument("--collection", help="scope facts are compared within")
     p.add_argument("--subject", help="override the detected document subject")
+    p.add_argument("--no-llm", action="store_true",
+                   help="ignore FACTLAYER_LLM and run the rule extractor only")
     p.set_defaults(func=cmd_ingest)
 
     p = sub.add_parser("stats", help="summarise the knowledge layer")

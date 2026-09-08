@@ -15,6 +15,7 @@ from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from ..llm import build_refiner
 from ..models import Fact
 from ..pipeline import ingest
 from ..store.db import Store
@@ -95,7 +96,7 @@ def create_app(db_path: str = "factlayer.db") -> FastAPI:
                         raise HTTPException(413, "file too large")
                     out.write(chunk)
             report = ingest(store, tmp, collection=collection,
-                            subject=subject or None)
+                            subject=subject or None, refiner=build_refiner())
             return report.as_dict()
         finally:
             shutil.rmtree(tmp.parent, ignore_errors=True)
