@@ -104,17 +104,19 @@ The two figures differ, and the difference is accounted for by the context each 
 
 **Reasoning**
 
-0.2 percent (India: 2025 Article IV Consultation-Press Release… p.12) and 1.0 percent
-(India: 2025 Article IV Consultation-Press Release… p.14) both report CAD as % of GDP for
-India and differ by 0.80 percentage points, but they are not in conflict: the first
-statement reports no stated basis while the second reports a projection.
+1.2 per cent (01-india-economic-survey-2024-25-excerpt p.62) and 1.0 percent (India: 2025
+Article IV Consultation-Press Release… p.14) both report CAD as % of GDP for India and
+differ by 0.20 percentage points, but they are not in conflict: 01-india-economic-
+survey-2024-25-excerpt covers Q2 FY2025 while India: 2025 Article IV Consultation-Press
+Release… covers FY2026; 01-india-economic-survey-2024-25-excerpt reports no stated basis
+while India: 2025 Article IV Consultation-Press Release… reports a projection.
 
-- **Fact A:** `0.2 percent` — CAD as % of GDP
-  - source: India: 2025 Article IV Consultation-Press Release; Staff Report; and Statement by the Executive Director for India; IMF Country Report No. 25/314; November 6, 2025, page 12 (characters 1411–1502)
-  - period: 2025Q2 · context: none stated · confidence: 0.95
+- **Fact A:** `1.2 per cent` — CAD as % of GDP
+  - source: 01-india-economic-survey-2024-25-excerpt, page 62 (characters 1401–1555)
+  - period: Q2 FY2025 · context: none stated · confidence: 0.95
   - evidence:
-  > In 2025Q2, robust services exports and remittances contained the CAD at 0.2 percent of
-  > GDP.
+  > 3.44 India's current account deficit (CAD) moderated slightly to 1.2 per cent of GDP in
+  > Q2 of FY25 against 1.3 per cent of the GDP recorded in Q2 of FY24.
 
 - **Fact B:** `1.0 percent` — CAD as % of GDP
   - source: India: 2025 Article IV Consultation-Press Release; Staff Report; and Statement by the Executive Director for India; IMF Country Report No. 25/314; November 6, 2025, page 14 (characters 113–244)
@@ -132,21 +134,20 @@ The two figures differ, and the difference is accounted for by the context each 
 
 **Reasoning**
 
-7.8 percent (India: 2025 Article IV Consultation-Press Release… p.3) and 8.8 percent (India:
-2025 Article IV Consultation-Press Release… p.10) both report GDP growth for India and
-differ by 1.00 percentage points, but they are not in conflict: the first statement reports
-real terms while the second reports nominal terms.
+6.5 percent (India: 2025 Article IV Consultation-Press Release… p.10) and 9.8 percent
+(India: 2025 Article IV Consultation-Press Release… p.10) both report GDP growth for India
+and differ by 3.30 percentage points, but they are not in conflict: the first statement
+reports real terms while the second reports nominal terms.
 
-- **Fact A:** `7.8 percent` — GDP growth
-  - source: India: 2025 Article IV Consultation-Press Release; Staff Report; and Statement by the Executive Director for India; IMF Country Report No. 25/314; November 6, 2025, page 3 (characters 404–526)
-  - period: FY2026 · context: price_basis=real · confidence: 0.95
+- **Fact A:** `6.5 percent` — GDP growth
+  - source: India: 2025 Article IV Consultation-Press Release; Staff Report; and Statement by the Executive Director for India; IMF Country Report No. 25/314; November 6, 2025, page 10 (characters 258–308)
+  - period: FY2025 · context: price_basis=real · confidence: 0.95
   - evidence:
-  > Following economic growth of 6.5 percent in FY2024/25, real GDP expanded by 7.8 percent
-  > in the first quarter of FY2025/26.
+  > India's real GDP grew by 6.5 percent in FY2024/25.
 
-- **Fact B:** `8.8 percent` — GDP growth
+- **Fact B:** `9.8 percent` — GDP growth
   - source: India: 2025 Article IV Consultation-Press Release; Staff Report; and Statement by the Executive Director for India; IMF Country Report No. 25/314; November 6, 2025, page 10 (characters 666–822)
-  - period: 2025Q2 · context: price_basis=nominal · confidence: 0.95
+  - period: FY2025 · context: price_basis=nominal · confidence: 0.95
   - evidence:
   > Nominal GDP growth moderated to 8.8 percent in 2025Q2, down from 9.8 percent in
   > FY2024/25, reflecting a low deflator mainly driven by declining food prices.

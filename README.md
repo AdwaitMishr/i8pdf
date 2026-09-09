@@ -266,11 +266,15 @@ system catches every one, e.g. express parcel shipments in FY24 reported as
 
 **3. An apparent contradiction explained by context.** Three flavours, each
 isolated to a single dimension:
-- **Consolidation** — the same annual report page states FY24 revenue as
-  ₹74,540.82 million *standalone* and ₹81,415.38 million *consolidated*.
-- **Vintage** — the Economic Survey's 6.4% for FY25 is a *first advance
-  estimate*; the IMF's figure for the same year is an outturn.
-- **Price basis** — real versus nominal GDP growth for the same quarter.
+- **Consolidation** — one annual report page states FY24 revenue as ₹74,540.82
+  million *standalone* and ₹81,415.38 million *consolidated*.
+- **Price basis** — one IMF page states FY2024/25 GDP growth as 6.5% *real* and
+  9.8% *nominal*.
+- **Vintage** — the Economic Survey's current-account deficit for Q2 FY25 against
+  the IMF's *projection* for the full year. The layer also holds the crispest
+  version of this, which the report's ranking does not happen to pick: the
+  Economic Survey's 6.4% FY25 growth is a *first advance estimate* and the IMF's
+  6.5% for the same year is an outturn — search `advance` in the Facts tab.
 
 **4. An extraction or reasoning failure.** `docs/FOUR_CASES.md` ends with the
 system auditing itself from the store (share of facts with no period, with a

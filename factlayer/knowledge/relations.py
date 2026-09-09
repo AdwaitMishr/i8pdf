@@ -224,6 +224,13 @@ def classify(a: Fact, b: Fact, left: DocumentInfo, right: DocumentInfo,
 
     reasons = "; ".join(d.describe(left.label, right.label) for d in differences)
     dimensions = [d.dimension for d in differences]
+    # A quarter inside a year is not a period *difference*, so it is not in the
+    # list -- but it is material to why the figures differ, and saying so is the
+    # difference between naming the reason and half-naming it.
+    if period in ("contains", "within"):
+        inner, outer = ((b, a) if period == "contains" else (a, b))
+        reasons = (f"{inner.period_label} sits inside {outer.period_label}; " + reasons)
+        dimensions = ["period scope"] + dimensions
     if agree:
         return Relation(
             left_id=a.fact_id, right_id=b.fact_id,

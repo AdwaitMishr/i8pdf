@@ -20,6 +20,8 @@ _WRAP = 92
 # Currency names are notation, not scale: "Rs ... million" and "₹ ... million"
 # are the same figure typed twice.
 _CURRENCY_WORDS = {"rs", "inr", "usd", "us", "eur", "gbp"}
+# Widest value ratio a showcased pair may have before it looks like a mis-parse.
+_SHOWCASE_RATIO = 5.0
 
 
 def _fact_block(store: Store, fact_id: str, side: str) -> str:
@@ -82,6 +84,23 @@ def _stated_differently(store: Store, row: sqlite3.Row) -> bool:
     return scales[0] != scales[1] and bool(scales[0] or scales[1])
 
 
+def _plausible_pair(store: Store, row: sqlite3.Row) -> bool:
+    """Are the two values in the same ballpark?
+
+    A presentation filter, not a reasoning rule -- the relationship is still
+    recorded either way. But a "% of GDP" pair reading 60.3 against 0.6 is a
+    mis-parse rather than an instructive reconciliation, and a report that
+    showcases it teaches the reader nothing.
+    """
+    rows = store.conn.execute(
+        "SELECT value FROM facts WHERE fact_id IN (?, ?)",
+        (row["left_id"], row["right_id"])).fetchall()
+    values = [abs(r["value"]) for r in rows if r["value"]]
+    if len(values) != 2:
+        return False
+    return max(values) / min(values) <= _SHOWCASE_RATIO
+
+
 def _same_metric(store: Store, row: sqlite3.Row) -> bool:
     """Both sides name the measure identically -- the clearest kind of comparison."""
     keys = store.conn.execute(
@@ -90,9 +109,33 @@ def _same_metric(store: Store, row: sqlite3.Row) -> bool:
     return len(keys) == 2 and keys[0]["metric_key"] == keys[1]["metric_key"]
 
 
+def _clarity(store: Store, row: sqlite3.Row) -> int:
+    """How clearly a pair illustrates its point. Lower is clearer.
+
+    A document that states the same figure on two bases in adjacent sentences is
+    the cleanest possible illustration, so those come first; then contrasts
+    between two documents; then everything else, which is usually two distant
+    pages of one report and needs more explaining than it is worth.
+    """
+    rows = store.conn.execute(
+        "SELECT fact_id, doc_id, page_no FROM facts WHERE fact_id IN (?, ?)",
+        (row["left_id"], row["right_id"])).fetchall()
+    if len(rows) != 2:
+        return 3
+    left, right = rows
+    if left["doc_id"] != right["doc_id"]:
+        return 1
+    return 0 if left["page_no"] == right["page_no"] else 2
+
+
 def _best(store: Store, rows: list[sqlite3.Row], predicate=None) -> sqlite3.Row | None:
-    """Prefer a pair whose two sides use the same words, then fall back."""
-    matching = [r for r in rows if (predicate is None or predicate(r))]
+    """Prefer a pair whose two sides use the same words, then fall back.
+
+    Sorting by clarity is stable, so the store's own ranking still decides
+    between equally clear candidates.
+    """
+    matching = sorted((r for r in rows if (predicate is None or predicate(r))),
+                      key=lambda r: _clarity(store, r))
     return _pick(matching, lambda r: _same_metric(store, r)) or _pick(matching)
 
 
@@ -129,7 +172,8 @@ def render_cases(store: Store, collection: str | None = None) -> str:
     conflicts = store.relations(kind="contradicts", cross_document=True,
                                 collection=collection, limit=60) or \
         store.relations(kind="contradicts", collection=collection, limit=60)
-    case2 = _best(store, conflicts)
+    case2 = (_best(store, conflicts, lambda r: _plausible_pair(store, r))
+             or _best(store, conflicts))
     cross_document = any(True for _ in store.relations(
         kind="contradicts", cross_document=True, collection=collection, limit=1))
     out.append("\n## Case 2 — A genuine or likely contradiction\n")
@@ -157,8 +201,14 @@ def render_cases(store: Store, collection: str | None = None) -> str:
                                      dimension=dimension, limit=60)
         # Prefer a pair that differs on this dimension *alone*, so each example
         # isolates one reason rather than listing three at once.
-        row = (_best(store, reconciled,
-                     lambda r, d=dimension: json.loads(r["dimensions"]) == [d])
+        def only(r, d=dimension):
+            return json.loads(r["dimensions"]) == [d] and _plausible_pair(store, r)
+
+        def carries(r, d=dimension):
+            return d in json.loads(r["dimensions"]) and _plausible_pair(store, r)
+
+        row = (_best(store, reconciled, only)
+               or _best(store, reconciled, carries)
                or _best(store, reconciled,
                         lambda r, d=dimension: d in json.loads(r["dimensions"])))
         if row is None or row["relation_id"] in seen:

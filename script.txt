@@ -3,7 +3,7 @@ FACT KNOWLEDGE LAYER — 3 MINUTE DEMO SCRIPT
 Superjoin engineering intern assignment
 ================================================================================
 
-Spoken words: 435.  At a normal demo pace of ~150 wpm that is 2:55, which
+Spoken words: 437.  At a normal demo pace of ~150 wpm that is 2:56, which
 leaves room to slow down on the figures and still finish under three minutes.
 Keep talking while you switch tabs — the timeline assumes you do.
 
@@ -97,23 +97,23 @@ And that caption sat in a different cell — matched by position."
 
 
 --------------------------------------------------------------------------------
-[1:24 - 1:49]   CASE 3 — RECONCILED BY CONTEXT                     62 words
+[1:24 - 1:50]   CASE 3 — RECONCILED BY CONTEXT                     64 words
 --------------------------------------------------------------------------------
-SCREEN: filter "reconciled by context". Show the consolidation card, then
-        scroll to a vintage card. Flash TAB 4 (reasoning.mmd) only if ahead.
+SCREEN: filter "reconciled by context". Show the consolidation card, then the
+        real-versus-nominal card. Flash TAB 4 (reasoning.mmd) only if ahead.
 
 "Case three, the interesting one. Same page of the annual report: FY24 revenue
 is seventy-four thousand million standalone, eighty-one thousand million
 consolidated. The system doesn't call that a conflict — it names consolidation
 as the reason.
 
-Same for vintage: the Economic Survey's six point four percent for FY25 is a
-first advance estimate, the IMF's is an outturn. Apparent contradictions that
+Same page of the IMF report: GDP growth is six and a half percent real, nine
+point eight nominal. It names the price basis. Apparent contradictions that
 context explains."
 
 
 --------------------------------------------------------------------------------
-[1:49 - 2:13]   CASE 2 — A GENUINE CONTRADICTION                   60 words
+[1:50 - 2:14]   CASE 2 — A GENUINE CONTRADICTION                   60 words
 --------------------------------------------------------------------------------
 SCREEN: filter "contradicts", cross-document only. Show the parcel card.
 
@@ -127,7 +127,7 @@ the deck's seven hundred and forty. Caught."
 
 
 --------------------------------------------------------------------------------
-[2:13 - 2:37]   CASE 4 — WHAT FAILS                                61 words
+[2:14 - 2:38]   CASE 4 — WHAT FAILS                                61 words
 --------------------------------------------------------------------------------
 SCREEN: TAB 3, scroll to Case 4 — the self-audit table.
 
@@ -141,7 +141,7 @@ percent. Both mitigated — thin phrases are still my main error source."
 
 
 --------------------------------------------------------------------------------
-[2:37 - 2:55]   TRADE-OFFS AND WHAT'S NEXT                         46 words
+[2:38 - 2:56]   TRADE-OFFS AND WHAT'S NEXT                         46 words
 --------------------------------------------------------------------------------
 SCREEN: TERMINAL. Run: .venv/bin/python -m pytest -q
 
@@ -163,7 +163,7 @@ DELIVERY NOTES
   the single most important moment in the video. Let both evidence panes sit on
   screen while you say it.
 
-* The strongest half minute is 1:24 - 1:49, Case 3. If you overrun, cut from
+* The strongest half minute is 1:24 - 1:50, Case 3. If you overrun, cut from
   the architecture section, never from there.
 
 * Do not apologise for Case 2 or Case 4. "No contradiction survived the context
