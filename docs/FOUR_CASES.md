@@ -14,25 +14,25 @@ Two documents state the same measure without using the same words. The link was 
 
 **Reasoning**
 
-02-delhivery-annual-report-fy24-excerpt p.36 reports "Revenues from customers" as ₹72,253.01
-million and probe-note-delhivery p.1 reports "revenue from operations" as Rs 72,253.01
-million. The wording differs, but both are stated for Delhivery in FY2023 in the same unit
-and agree to within the precision each states, so they are the same measure reported two
-ways.
+02-delhivery-annual-report-fy24-excerpt p.22 reports "revenue from operations" as ₹
+81,415.38 million and 03-delhivery-q4-fy24-earnings-presentation p.6 reports "revenue from
+services" as ₹8,142 Cr. The wording differs, but both are stated for Delhivery in FY2024 in
+the same unit and agree to within the precision each states, so they are the same measure
+reported two ways.
 
-- **Fact A:** `₹72,253.01 million` — Revenues from customers
-  - source: 02-delhivery-annual-report-fy24-excerpt, page 36 (characters 3707–3815)
-  - period: FY2023 · context: none stated · confidence: 0.95
+- **Fact A:** `₹ 81,415.38 million` — revenue from operations
+  - source: 02-delhivery-annual-report-fy24-excerpt, page 22 (characters 1600–1761)
+  - period: FY2024 · context: consolidation=consolidated · confidence: 0.95
   - evidence:
-  > Revenues from customers increased by 12.68% to ₹81,415.38 million for FY24 from
-  > ₹72,253.01 million for FY23.
+  > y The revenue from operations on consolidated basis for FY24 stood at ₹ 81,415.38
+  > million as against ₹72,253.01 million for FY23, registering a growth of 12.68%.
 
-- **Fact B:** `Rs 72,253.01 million` — revenue from operations
-  - source: probe-note-delhivery, page 1 (characters 125–255)
-  - period: FY2023 · context: consolidation=consolidated · confidence: 0.855
+- **Fact B:** `₹8,142 Cr` — revenue from services
+  - source: 03-delhivery-q4-fy24-earnings-presentation, page 6 (characters 60–96)
+  - period: FY2024 · context: none stated · confidence: 0.855
   - evidence:
-  > The revenue from operations on consolidated basis for FY24 stood at Rs 79,900.00 million
-  > as against Rs 72,253.01 million for FY23.
+  > ₹8,142 Cr ₹127Cr / 1.6% ₹76Cr / 0.9%
+  - caption recovered from another cell on the same page: "FY24 revenue from services"
 
 
 

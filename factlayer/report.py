@@ -17,6 +17,9 @@ from .store.db import Store
 _EXPLANATORY = ("consolidation", "vintage", "price_basis", "publication",
                 "adjustment", "aggregation", "period")
 _WRAP = 92
+# Currency names are notation, not scale: "Rs ... million" and "₹ ... million"
+# are the same figure typed twice.
+_CURRENCY_WORDS = {"rs", "inr", "usd", "us", "eur", "gbp"}
 
 
 def _fact_block(store: Store, fact_id: str, side: str) -> str:
@@ -68,9 +71,15 @@ def _stated_differently(store: Store, row: sqlite3.Row) -> bool:
         (row["left_id"], row["right_id"])).fetchall()
     if len(rows) != 2:
         return False
-    shapes = ["".join(c for c in r["display"] if not c.isdigit() and c not in ".,-() ")
-              for r in rows]
-    return shapes[0].lower() != shapes[1].lower()
+    # Compare the scale and unit words, not the currency notation: "₹ ... million"
+    # against "Rs ... million" is the same figure typed twice, whereas "million"
+    # against "Cr" is the same figure on a different scale.
+    def scale_words(display: str) -> set[str]:
+        words = {w.lower().strip(".") for w in display.split() if w.isalpha()}
+        return words - _CURRENCY_WORDS
+
+    scales = [scale_words(r["display"]) for r in rows]
+    return scales[0] != scales[1] and bool(scales[0] or scales[1])
 
 
 def _same_metric(store: Store, row: sqlite3.Row) -> bool:
