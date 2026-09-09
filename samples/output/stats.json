@@ -1,0 +1,126 @@
+{
+  "summary": {
+    "documents": 8,
+    "pages": 513,
+    "facts": 4825,
+    "relations": 8990,
+    "concepts": 1592,
+    "by_relation": {
+      "consistent_across_context": 319,
+      "contradicts": 1280,
+      "corroborates": 139,
+      "part_of": 180,
+      "reconciled_by_context": 7072
+    },
+    "collections": [
+      "delhivery",
+      "india-macroeconomy"
+    ]
+  },
+  "documents": [
+    {
+      "doc_id": "061b791ab6e0",
+      "filename": "probe-note-india.pdf",
+      "title": "probe-note-india",
+      "sha256": "061b791ab6e09e84c31498408681beeb49d7e5c1cbdaca2c8d976b916bb5c899",
+      "n_pages": 1,
+      "collection": "india-macroeconomy",
+      "subject": "India",
+      "subject_key": "india",
+      "published_on": null,
+      "ingested_at": "2026-09-09T09:24:44",
+      "n_facts": 3
+    },
+    {
+      "doc_id": "f6d3cfecafd9",
+      "filename": "03-imf-india-2025-article-iv-excerpt.pdf",
+      "title": "India: 2025 Article IV Consultation-Press Release; Staff Report; and Statement by the Executive Director for India; IMF Country Report No. 25/314; November 6, 2025",
+      "sha256": "f6d3cfecafd9548920349b29b1137d645c20073434d0ac66485ead9738a0ea4d",
+      "n_pages": 95,
+      "collection": "india-macroeconomy",
+      "subject": "India",
+      "subject_key": "india",
+      "published_on": "2025-11-21",
+      "ingested_at": "2026-09-09T09:24:43",
+      "n_facts": 383
+    },
+    {
+      "doc_id": "f92d57b3d748",
+      "filename": "probe-note-delhivery.pdf",
+      "title": "probe-note-delhivery",
+      "sha256": "f92d57b3d74811b6905c00ee70f9cbea26f7db109c377c5e82970c09d1d4ede5",
+      "n_pages": 1,
+      "collection": "delhivery",
+      "subject": "Delhivery",
+      "subject_key": "delhivery",
+      "published_on": null,
+      "ingested_at": "2026-09-09T09:24:43",
+      "n_facts": 4
+    },
+    {
+      "doc_id": "73209a2caa2f",
+      "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+      "title": "02-rbi-annual-report-2024-25-excerpt",
+      "sha256": "73209a2caa2f5671f2feae065d01602302daaaac9e8230c9c471d99243fd079e",
+      "n_pages": 100,
+      "collection": "india-macroeconomy",
+      "subject": "India",
+      "subject_key": "india",
+      "published_on": "2025-05-25",
+      "ingested_at": "2026-09-09T09:24:37",
+      "n_facts": 894
+    },
+    {
+      "doc_id": "86f2e79a3b7b",
+      "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "title": "01-india-economic-survey-2024-25-excerpt",
+      "sha256": "86f2e79a3b7b4a3698907897297b9e17fe06d39c074d52e68303066d18a2cf71",
+      "n_pages": 89,
+      "collection": "india-macroeconomy",
+      "subject": "India",
+      "subject_key": "india",
+      "published_on": "2025-01-30",
+      "ingested_at": "2026-09-09T09:24:30",
+      "n_facts": 474
+    },
+    {
+      "doc_id": "5ca307085c96",
+      "filename": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "title": "03-delhivery-q4-fy24-earnings-presentation",
+      "sha256": "5ca307085c96c1fcbfd2d99a7ad40dcbd8958079b3833063520e4e84fdded2a8",
+      "n_pages": 27,
+      "collection": "delhivery",
+      "subject": "Delhivery",
+      "subject_key": "delhivery",
+      "published_on": "2024-05-17",
+      "ingested_at": "2026-09-09T09:24:26",
+      "n_facts": 79
+    },
+    {
+      "doc_id": "de6d79adc066",
+      "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "title": "02-delhivery-annual-report-fy24-excerpt",
+      "sha256": "de6d79adc0667d66f5415fa4fcec4b485a19073744adce44dfca3e34e529fa7a",
+      "n_pages": 100,
+      "collection": "delhivery",
+      "subject": "Delhivery",
+      "subject_key": "delhivery",
+      "published_on": "2024-08-08",
+      "ingested_at": "2026-09-09T09:24:24",
+      "n_facts": 1746
+    },
+    {
+      "doc_id": "0d7e71e1766e",
+      "filename": "01-delhivery-prospectus-2022-excerpt.pdf",
+      "title": "01-delhivery-prospectus-2022-excerpt",
+      "sha256": "0d7e71e1766ef33063e52a2140936fbe400c2950e58e93489d031be0b19d8ce7",
+      "n_pages": 100,
+      "collection": "delhivery",
+      "subject": "India",
+      "subject_key": "india",
+      "published_on": "2022-05-16",
+      "ingested_at": "2026-09-09T09:24:10",
+      "n_facts": 1242
+    }
+  ]
+}

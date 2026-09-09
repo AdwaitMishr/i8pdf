@@ -1,0 +1,732 @@
+[
+  {
+    "relation": "reconciled_by_context",
+    "confidence": 0.807,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "USD 10.6 billion (01-india-economic-survey-2024-25-excerpt p.31) and US$ 220.1 billion (02-rbi-annual-report-2024-25-excerpt p.76) both report net inflows for India and differ by 95.18%, but they are not in conflict: 01-india-economic-survey-2024-25-excerpt covers 2024-12 while 02-rbi-annual-report-2024-25-excerpt covers FY2024.",
+    "left": {
+      "fact_id": "fea7799d6f62f355",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 31,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "Net FPI inflows",
+      "metric_key": "net fpi inflow",
+      "concept_id": "cb151dc8680",
+      "value": 10600000000.0,
+      "unit": "USD",
+      "display": "USD 10.6 billion",
+      "period": "2024-12",
+      "period_kind": "month",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Net FPI inflows slowed to USD 10.6 billion in April - December 2024 from USD 31.7 billion during the same period the previous year.",
+        "char_start": 544,
+        "char_end": 675,
+        "value_offset": [
+          26,
+          42
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "b50eda6c83eb3ffc",
+      "doc_id": "73209a2caa2f",
+      "page_no": 76,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net portfolio inflows",
+      "metric_key": "net portfolio inflow",
+      "concept_id": "cb151dc8680",
+      "value": 220100000000.0,
+      "unit": "USD",
+      "display": "US$ 220.1 billion",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "II.7.4 Emerging market economies (EMEs) recorded net portfolio inflows of US$ 255.7 billion during 2024-25 as compared with US$ 220.1 billion during 2023-24 (Chart II.7.2).",
+        "char_start": 1590,
+        "char_end": 1762,
+        "value_offset": [
+          124,
+          141
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "reconciled_by_context",
+    "confidence": 0.807,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "USD 10.6 billion (01-india-economic-survey-2024-25-excerpt p.31) and US$ 18.7 billion (02-rbi-annual-report-2024-25-excerpt p.88) both report net inflows for India and differ by 43.32%, but they are not in conflict: 01-india-economic-survey-2024-25-excerpt covers 2024-12 while 02-rbi-annual-report-2024-25-excerpt covers FY2024.",
+    "left": {
+      "fact_id": "fea7799d6f62f355",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 31,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "Net FPI inflows",
+      "metric_key": "net fpi inflow",
+      "concept_id": "cb151dc8680",
+      "value": 10600000000.0,
+      "unit": "USD",
+      "display": "USD 10.6 billion",
+      "period": "2024-12",
+      "period_kind": "month",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Net FPI inflows slowed to USD 10.6 billion in April - December 2024 from USD 31.7 billion during the same period the previous year.",
+        "char_start": 544,
+        "char_end": 675,
+        "value_offset": [
+          26,
+          42
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "e95438eb0a322ffc",
+      "doc_id": "73209a2caa2f",
+      "page_no": 88,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net ECB inflows to India growth",
+      "metric_key": "net ecb inflow india growth",
+      "concept_id": "cb151dc8680",
+      "value": 18700000000.0,
+      "unit": "USD",
+      "display": "US$ 18.7 billion",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "II.7.28 During 2024-25, net ECB inflows to India rose significantly to US$ 18.7 billion from US$ 3.6 billion in 2023-24 (Chart II.7.26).",
+        "char_start": 1202,
+        "char_end": 1338,
+        "value_offset": [
+          71,
+          87
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "reconciled_by_context",
+    "confidence": 0.807,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "USD 10.6 billion (01-india-economic-survey-2024-25-excerpt p.31) and US$ 3.6 billion (02-rbi-annual-report-2024-25-excerpt p.88) both report net inflows for India and differ by 66.04%, but they are not in conflict: 01-india-economic-survey-2024-25-excerpt covers 2024-12 while 02-rbi-annual-report-2024-25-excerpt covers FY2024.",
+    "left": {
+      "fact_id": "fea7799d6f62f355",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 31,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "Net FPI inflows",
+      "metric_key": "net fpi inflow",
+      "concept_id": "cb151dc8680",
+      "value": 10600000000.0,
+      "unit": "USD",
+      "display": "USD 10.6 billion",
+      "period": "2024-12",
+      "period_kind": "month",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Net FPI inflows slowed to USD 10.6 billion in April - December 2024 from USD 31.7 billion during the same period the previous year.",
+        "char_start": 544,
+        "char_end": 675,
+        "value_offset": [
+          26,
+          42
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "5419cde2885dceb4",
+      "doc_id": "73209a2caa2f",
+      "page_no": 88,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net ECB inflows to India",
+      "metric_key": "net ecb inflow india",
+      "concept_id": "cb151dc8680",
+      "value": 3600000000.0,
+      "unit": "USD",
+      "display": "US$ 3.6 billion",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "II.7.28 During 2024-25, net ECB inflows to India rose significantly to US$ 18.7 billion from US$ 3.6 billion in 2023-24 (Chart II.7.26).",
+        "char_start": 1202,
+        "char_end": 1338,
+        "value_offset": [
+          93,
+          108
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "reconciled_by_context",
+    "confidence": 0.807,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "USD 30.5 billion (01-india-economic-survey-2024-25-excerpt p.64) and US$ 220.1 billion (02-rbi-annual-report-2024-25-excerpt p.76) both report net inflows for India and differ by 86.14%, but they are not in conflict: 01-india-economic-survey-2024-25-excerpt covers Q2 FY2025 while 02-rbi-annual-report-2024-25-excerpt covers FY2024.",
+    "left": {
+      "fact_id": "bfd6e9a26f5303f7",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 64,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net capital inflows",
+      "metric_key": "net capital inflow",
+      "concept_id": "cb151dc8680",
+      "value": 30500000000.0,
+      "unit": "USD",
+      "display": "USD 30.5 billion",
+      "period": "Q2 FY2025",
+      "period_kind": "quarter",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "In Q2 of FY25, net capital inflows stood at USD 30.5 billion, a significant increase from the USD 12.8 billion recorded during the same period in the previous year.",
+        "char_start": 519,
+        "char_end": 683,
+        "value_offset": [
+          44,
+          60
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "b50eda6c83eb3ffc",
+      "doc_id": "73209a2caa2f",
+      "page_no": 76,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net portfolio inflows",
+      "metric_key": "net portfolio inflow",
+      "concept_id": "cb151dc8680",
+      "value": 220100000000.0,
+      "unit": "USD",
+      "display": "US$ 220.1 billion",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "II.7.4 Emerging market economies (EMEs) recorded net portfolio inflows of US$ 255.7 billion during 2024-25 as compared with US$ 220.1 billion during 2023-24 (Chart II.7.2).",
+        "char_start": 1590,
+        "char_end": 1762,
+        "value_offset": [
+          124,
+          141
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "reconciled_by_context",
+    "confidence": 0.807,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "USD 30.5 billion (01-india-economic-survey-2024-25-excerpt p.64) and US$ 18.7 billion (02-rbi-annual-report-2024-25-excerpt p.88) both report net inflows for India and differ by 38.69%, but they are not in conflict: 01-india-economic-survey-2024-25-excerpt covers Q2 FY2025 while 02-rbi-annual-report-2024-25-excerpt covers FY2024.",
+    "left": {
+      "fact_id": "bfd6e9a26f5303f7",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 64,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net capital inflows",
+      "metric_key": "net capital inflow",
+      "concept_id": "cb151dc8680",
+      "value": 30500000000.0,
+      "unit": "USD",
+      "display": "USD 30.5 billion",
+      "period": "Q2 FY2025",
+      "period_kind": "quarter",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "In Q2 of FY25, net capital inflows stood at USD 30.5 billion, a significant increase from the USD 12.8 billion recorded during the same period in the previous year.",
+        "char_start": 519,
+        "char_end": 683,
+        "value_offset": [
+          44,
+          60
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "e95438eb0a322ffc",
+      "doc_id": "73209a2caa2f",
+      "page_no": 88,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net ECB inflows to India growth",
+      "metric_key": "net ecb inflow india growth",
+      "concept_id": "cb151dc8680",
+      "value": 18700000000.0,
+      "unit": "USD",
+      "display": "US$ 18.7 billion",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "II.7.28 During 2024-25, net ECB inflows to India rose significantly to US$ 18.7 billion from US$ 3.6 billion in 2023-24 (Chart II.7.26).",
+        "char_start": 1202,
+        "char_end": 1338,
+        "value_offset": [
+          71,
+          87
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "reconciled_by_context",
+    "confidence": 0.807,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "USD 30.5 billion (01-india-economic-survey-2024-25-excerpt p.64) and US$ 3.6 billion (02-rbi-annual-report-2024-25-excerpt p.88) both report net inflows for India and differ by 88.20%, but they are not in conflict: 01-india-economic-survey-2024-25-excerpt covers Q2 FY2025 while 02-rbi-annual-report-2024-25-excerpt covers FY2024.",
+    "left": {
+      "fact_id": "bfd6e9a26f5303f7",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 64,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net capital inflows",
+      "metric_key": "net capital inflow",
+      "concept_id": "cb151dc8680",
+      "value": 30500000000.0,
+      "unit": "USD",
+      "display": "USD 30.5 billion",
+      "period": "Q2 FY2025",
+      "period_kind": "quarter",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "In Q2 of FY25, net capital inflows stood at USD 30.5 billion, a significant increase from the USD 12.8 billion recorded during the same period in the previous year.",
+        "char_start": 519,
+        "char_end": 683,
+        "value_offset": [
+          44,
+          60
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "5419cde2885dceb4",
+      "doc_id": "73209a2caa2f",
+      "page_no": 88,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net ECB inflows to India",
+      "metric_key": "net ecb inflow india",
+      "concept_id": "cb151dc8680",
+      "value": 3600000000.0,
+      "unit": "USD",
+      "display": "US$ 3.6 billion",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "II.7.28 During 2024-25, net ECB inflows to India rose significantly to US$ 18.7 billion from US$ 3.6 billion in 2023-24 (Chart II.7.26).",
+        "char_start": 1202,
+        "char_end": 1338,
+        "value_offset": [
+          93,
+          108
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "reconciled_by_context",
+    "confidence": 0.807,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "USD 75.3 billion (01-india-economic-survey-2024-25-excerpt p.62) and US$ 241.1 billion (02-rbi-annual-report-2024-25-excerpt p.11) both report merchandise trade deficit for India and differ by 68.77%, but they are not in conflict: 01-india-economic-survey-2024-25-excerpt covers Q2 FY2025 while 02-rbi-annual-report-2024-25-excerpt covers FY2024.",
+    "left": {
+      "fact_id": "aea82f0d198fdb0f",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 62,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "merchandise trade deficit",
+      "metric_key": "merchandise trade deficit",
+      "concept_id": "c5436bbb0bf",
+      "value": 75300000000.0,
+      "unit": "USD",
+      "display": "USD 75.3 billion",
+      "period": "Q2 FY2025",
+      "period_kind": "quarter",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "The recent rise in the CAD can be attributed to an increase in the merchandise trade deficit, which rose to USD 75.3 billion in Q2 of FY25 from USD 64.5 billion in the corresponding quarter of the previous year.",
+        "char_start": 1556,
+        "char_end": 1767,
+        "value_offset": [
+          108,
+          124
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "de3513c8d23a1dbc",
+      "doc_id": "73209a2caa2f",
+      "page_no": 11,
+      "subject": "India",
+      "subject_source": "sentence",
+      "metric": "merchandise trade deficit widened",
+      "metric_key": "merchandise trade deficit widened",
+      "concept_id": "c5436bbb0bf",
+      "value": 241100000000.0,
+      "unit": "USD",
+      "display": "US$ 241.1 billion",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Consequently, India's merchandise trade deficit widened to US$ 282.8 billion during 2024-25 from US$ 241.1 billion a year ago.",
+        "char_start": 2668,
+        "char_end": 2794,
+        "value_offset": [
+          97,
+          114
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "reconciled_by_context",
+    "confidence": 0.807,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "USD 75.3 billion (01-india-economic-survey-2024-25-excerpt p.62) and US$ 241.1 billion (02-rbi-annual-report-2024-25-excerpt p.81) both report merchandise trade deficit for India and differ by 68.77%, but they are not in conflict: 01-india-economic-survey-2024-25-excerpt covers Q2 FY2025 while 02-rbi-annual-report-2024-25-excerpt covers FY2024.",
+    "left": {
+      "fact_id": "aea82f0d198fdb0f",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 62,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "merchandise trade deficit",
+      "metric_key": "merchandise trade deficit",
+      "concept_id": "c5436bbb0bf",
+      "value": 75300000000.0,
+      "unit": "USD",
+      "display": "USD 75.3 billion",
+      "period": "Q2 FY2025",
+      "period_kind": "quarter",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "The recent rise in the CAD can be attributed to an increase in the merchandise trade deficit, which rose to USD 75.3 billion in Q2 of FY25 from USD 64.5 billion in the corresponding quarter of the previous year.",
+        "char_start": 1556,
+        "char_end": 1767,
+        "value_offset": [
+          108,
+          124
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "be2bfedbd83ebe9d",
+      "doc_id": "73209a2caa2f",
+      "page_no": 81,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "Merchandise trade deficit widened",
+      "metric_key": "merchandise trade deficit widened",
+      "concept_id": "c5436bbb0bf",
+      "value": 241100000000.0,
+      "unit": "USD",
+      "display": "US$ 241.1 billion",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "II.7.17 Merchandise trade deficit widened to US$ 282.8 billion in 2024-25 from US$ 241.1 billion a year ago.",
+        "char_start": 1034,
+        "char_end": 1142,
+        "value_offset": [
+          79,
+          96
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "reconciled_by_context",
+    "confidence": 0.807,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "USD 64.5 billion (01-india-economic-survey-2024-25-excerpt p.62) and US$ 241.1 billion (02-rbi-annual-report-2024-25-excerpt p.11) both report merchandise trade deficit for India and differ by 73.25%, but they are not in conflict: 01-india-economic-survey-2024-25-excerpt covers Q2 FY2025 while 02-rbi-annual-report-2024-25-excerpt covers FY2024.",
+    "left": {
+      "fact_id": "5fe57f9ca9e61631",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 62,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "merchandise trade deficit",
+      "metric_key": "merchandise trade deficit",
+      "concept_id": "c5436bbb0bf",
+      "value": 64500000000.0,
+      "unit": "USD",
+      "display": "USD 64.5 billion",
+      "period": "Q2 FY2025",
+      "period_kind": "quarter",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "The recent rise in the CAD can be attributed to an increase in the merchandise trade deficit, which rose to USD 75.3 billion in Q2 of FY25 from USD 64.5 billion in the corresponding quarter of the previous year.",
+        "char_start": 1556,
+        "char_end": 1767,
+        "value_offset": [
+          144,
+          160
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "de3513c8d23a1dbc",
+      "doc_id": "73209a2caa2f",
+      "page_no": 11,
+      "subject": "India",
+      "subject_source": "sentence",
+      "metric": "merchandise trade deficit widened",
+      "metric_key": "merchandise trade deficit widened",
+      "concept_id": "c5436bbb0bf",
+      "value": 241100000000.0,
+      "unit": "USD",
+      "display": "US$ 241.1 billion",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Consequently, India's merchandise trade deficit widened to US$ 282.8 billion during 2024-25 from US$ 241.1 billion a year ago.",
+        "char_start": 2668,
+        "char_end": 2794,
+        "value_offset": [
+          97,
+          114
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "reconciled_by_context",
+    "confidence": 0.807,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "USD 64.5 billion (01-india-economic-survey-2024-25-excerpt p.62) and US$ 241.1 billion (02-rbi-annual-report-2024-25-excerpt p.81) both report merchandise trade deficit for India and differ by 73.25%, but they are not in conflict: 01-india-economic-survey-2024-25-excerpt covers Q2 FY2025 while 02-rbi-annual-report-2024-25-excerpt covers FY2024.",
+    "left": {
+      "fact_id": "5fe57f9ca9e61631",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 62,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "merchandise trade deficit",
+      "metric_key": "merchandise trade deficit",
+      "concept_id": "c5436bbb0bf",
+      "value": 64500000000.0,
+      "unit": "USD",
+      "display": "USD 64.5 billion",
+      "period": "Q2 FY2025",
+      "period_kind": "quarter",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "The recent rise in the CAD can be attributed to an increase in the merchandise trade deficit, which rose to USD 75.3 billion in Q2 of FY25 from USD 64.5 billion in the corresponding quarter of the previous year.",
+        "char_start": 1556,
+        "char_end": 1767,
+        "value_offset": [
+          144,
+          160
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "be2bfedbd83ebe9d",
+      "doc_id": "73209a2caa2f",
+      "page_no": 81,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "Merchandise trade deficit widened",
+      "metric_key": "merchandise trade deficit widened",
+      "concept_id": "c5436bbb0bf",
+      "value": 241100000000.0,
+      "unit": "USD",
+      "display": "US$ 241.1 billion",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "II.7.17 Merchandise trade deficit widened to US$ 282.8 billion in 2024-25 from US$ 241.1 billion a year ago.",
+        "char_start": 1034,
+        "char_end": 1142,
+        "value_offset": [
+          79,
+          96
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  }
+]

@@ -7,8 +7,8 @@ different bases.
 
 Built for the Superjoin engineering intern assignment (`docs/superjoin-vit-2026-assignment.pdf`).
 
-On the six starter documents (511 pages) it extracts **4,792 grounded facts**
-and derives **8,163 relationships** in **39 seconds**, with no API key and
+On the six starter documents (511 pages) it extracts **4,818 grounded facts**
+and derives **8,860 relationships** in **39 seconds**, with no API key and
 no network access.
 
 ---
@@ -325,7 +325,14 @@ and what was done about each:
   docs/          assignment brief, generated four-case report
   ```
 
-  ~4,100 lines of Python, ~700 lines of tests.
+  ~4,200 lines of Python, ~750 lines of tests.
+
+- **Sample output** is committed under `samples/output/` (stats, facts, and each
+  relationship kind as JSON, plus the four-case report), so the system can be
+  evaluated without running it. Regenerate with `scripts/export_samples.py`.
+
+- **Runs are reproducible.** Ingesting the same PDFs twice produces byte-identical
+  counts; a test asserts it.
 
 - **Nothing is keyed to the starter documents.** No filenames, no document
   fingerprints, no metric whitelist. The two domain lexicons that exist

@@ -48,8 +48,11 @@ _NOUN = (r"((?:the\s+)?[A-Za-z][\w-]*"
 _OF_DENOMINATOR = re.compile(r"\s*of\s+" + _NOUN, re.IGNORECASE)
 # How far back a preceding "as per cent of X" may sit and still govern the value.
 _DENOMINATOR_LOOKBACK = 90
+# Up to two words may stand between the value and the preposition, as in
+# "740 million parcels for FY24".
 _ATTACHES_PERIOD = re.compile(
-    r"^[\s,]*(?:in|for|during|of|over|through|to|as\s+(?:of|at|on))\b[^.;:]{0,60}$",
+    r"^[\s,]*(?:\w+\s+){0,2}(?:in|for|during|of|over|through|to|as\s+(?:of|at|on))\b"
+    r"[^.;:]{0,40}$",
     re.IGNORECASE)
 # "5.4 per cent in the previous year" is a claim about the year before the one
 # the sentence has been discussing, not about that year.
@@ -150,16 +153,17 @@ def _period_for(text: str, periods: list[Period], q: Quantity,
     if not candidates:
         return None
 
-    def score(p: Period) -> float:
-        distance = _nearest(text, p, q)
-        if p.span[0] >= q.end:
-            between = text[q.end:p.span[0]]
-            blocked = any(q.end <= o.start < p.span[0] for o in others if o is not q)
-            if not blocked and _ATTACHES_PERIOD.match(between):
-                return distance * 0.4
-        return distance
+    def attaches(p: Period) -> bool:
+        """Is this period bound to the value by a temporal preposition after it?"""
+        if p.span[0] < q.end:
+            return False
+        blocked = any(q.end <= o.start < p.span[0] for o in others if o is not q)
+        return not blocked and bool(_ATTACHES_PERIOD.match(text[q.end:p.span[0]]))
 
-    chosen = min(candidates, key=score)
+    # English binds "for FY23" to the value in front of it, however close a
+    # different period happens to sit on the other side.
+    bound = [p for p in candidates if attaches(p)]
+    chosen = min(bound or candidates, key=lambda p: _nearest(text, p, q))
     if _RELATIVE_BACK.match(text[q.end:q.end + 40]):
         return shift_back(chosen)
     return chosen
@@ -300,7 +304,8 @@ def extract_from_unit(unit: Unit, page_no: int, ctx: ExtractionContext,
 
     for q in quantities:
         denominator = denominators.get(q)
-        phrase = metric_mod.choose(text, q, claimed, topic)
+        barriers = [(o.start, o.end) for o in quantities if o is not q]
+        phrase = metric_mod.choose(text, q, claimed, topic, barriers)
         metric = phrase.text
         period = _period_for(text, periods, q, quantities)
         context = _context_for(text, qualifiers, q, quantities)

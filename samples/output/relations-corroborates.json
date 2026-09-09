@@ -1,0 +1,623 @@
+[
+  {
+    "relation": "corroborates",
+    "confidence": 0.72,
+    "found_by": "concept",
+    "differs_on": [],
+    "reasoning": "02-delhivery-annual-report-fy24-excerpt p.36 and 03-delhivery-q4-fy24-earnings-presentation p.6 both report Express parcel for Delhivery in FY2024: 740 million and 740 Mn. They differ by 0.00%, inside the tolerance implied by the precision each document states.",
+    "left": {
+      "fact_id": "2aa6ef45022eda3c",
+      "doc_id": "de6d79adc066",
+      "page_no": 36,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Express parcel shipment volumes",
+      "metric_key": "express parcel shipment volume",
+      "concept_id": "cf59a4f5982",
+      "value": 740000000.0,
+      "unit": "count",
+      "display": "740 million",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.8,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Express parcel shipment volumes increased by 11.48% to 740 million parcels for FY24 from 663 million parcels for FY23.",
+        "char_start": 3942,
+        "char_end": 4060,
+        "value_offset": [
+          55,
+          66
+        ]
+      },
+      "document": {
+        "title": "02-delhivery-annual-report-fy24-excerpt",
+        "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "collection": "delhivery"
+      }
+    },
+    "right": {
+      "fact_id": "17af98a27c2bc2dc",
+      "doc_id": "5ca307085c96",
+      "page_no": 6,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Express parcel shipments",
+      "metric_key": "express parcel shipment",
+      "concept_id": "cf59a4f5982",
+      "value": 740000000.0,
+      "unit": "count",
+      "display": "740 Mn",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.72,
+      "extractor": "rules",
+      "evidence": {
+        "text": "740 Mn 1.4 Mn Tons",
+        "char_start": 249,
+        "char_end": 267,
+        "value_offset": [
+          0,
+          6
+        ],
+        "label": {
+          "text": "Express parcel shipments in FY24",
+          "char_start": 269,
+          "char_end": 301
+        }
+      },
+      "document": {
+        "title": "03-delhivery-q4-fy24-earnings-presentation",
+        "filename": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+        "collection": "delhivery"
+      }
+    }
+  },
+  {
+    "relation": "corroborates",
+    "confidence": 0.95,
+    "found_by": "concept",
+    "differs_on": [],
+    "reasoning": "02-rbi-annual-report-2024-25-excerpt p.17 and probe-note-india p.1 both report GDP growth for India in FY2026: 6.5 per cent and 6.5 per cent. They differ by 0.00 percentage points, inside the tolerance implied by the precision each document states.",
+    "left": {
+      "fact_id": "253f921d5a6a02af",
+      "doc_id": "73209a2caa2f",
+      "page_no": 17,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "GDP growth",
+      "metric_key": "gdp growth",
+      "concept_id": "c05a99fdacc",
+      "value": 6.5,
+      "unit": "percent",
+      "display": "6.5 per cent",
+      "period": "FY2026",
+      "period_kind": "fy",
+      "context": {
+        "price_basis": "real",
+        "vintage": "projection"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Taking into account these factors, real GDP growth for 2025-26 is projected at 6.5 per cent, with risks evenly balanced.",
+        "char_start": 62,
+        "char_end": 182,
+        "value_offset": [
+          79,
+          91
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "40762c5eaf1e7447",
+      "doc_id": "061b791ab6e0",
+      "page_no": 1,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "GDP growth",
+      "metric_key": "gdp growth",
+      "concept_id": "c05a99fdacc",
+      "value": 6.5,
+      "unit": "percent",
+      "display": "6.5 per cent",
+      "period": "FY2026",
+      "period_kind": "fy",
+      "context": {
+        "price_basis": "real",
+        "vintage": "projection"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Real GDP growth for 2025-26 is projected at 6.5 per cent.",
+        "char_start": 254,
+        "char_end": 311,
+        "value_offset": [
+          44,
+          56
+        ]
+      },
+      "document": {
+        "title": "probe-note-india",
+        "filename": "probe-note-india.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "corroborates",
+    "confidence": 0.769,
+    "found_by": "value_bridge",
+    "differs_on": [
+      "metric wording"
+    ],
+    "reasoning": "02-delhivery-annual-report-fy24-excerpt p.36 reports \"PTL volumes growth\" as 29.82% and 03-delhivery-q4-fy24-earnings-presentation p.6 reports \"PTL freight tonnage\" as 29.8%. The wording differs, but both are stated for Delhivery in FY2024 in the same unit and agree to within the precision each states, so they are the same measure reported two ways.",
+    "left": {
+      "fact_id": "8ae84e015a6c874c",
+      "doc_id": "de6d79adc066",
+      "page_no": 36,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "PTL volumes growth",
+      "metric_key": "ptl volume growth",
+      "concept_id": "c07e7f48417",
+      "value": 29.82,
+      "unit": "percent",
+      "display": "29.82%",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "PTL volumes increased by 29.82% to 1,429K tonnes for FY24 from 1,101K tonnes for FY23.",
+        "char_start": 4176,
+        "char_end": 4262,
+        "value_offset": [
+          25,
+          31
+        ]
+      },
+      "document": {
+        "title": "02-delhivery-annual-report-fy24-excerpt",
+        "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "collection": "delhivery"
+      }
+    },
+    "right": {
+      "fact_id": "c15bdec59edf5b3d",
+      "doc_id": "5ca307085c96",
+      "page_no": 6,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "PTL freight tonnage",
+      "metric_key": "ptl freight tonnage",
+      "concept_id": "cb7de27476b",
+      "value": 29.8,
+      "unit": "percent",
+      "display": "29.8%",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {
+        "comparison": "yoy"
+      },
+      "confidence": 0.855,
+      "extractor": "rules",
+      "evidence": {
+        "text": "YoY: 11.5% YoY: 29.8%",
+        "char_start": 331,
+        "char_end": 352,
+        "value_offset": [
+          16,
+          21
+        ],
+        "label": {
+          "text": "PTL freight tonnage in FY24",
+          "char_start": 302,
+          "char_end": 329
+        }
+      },
+      "document": {
+        "title": "03-delhivery-q4-fy24-earnings-presentation",
+        "filename": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+        "collection": "delhivery"
+      }
+    }
+  },
+  {
+    "relation": "corroborates",
+    "confidence": 0.855,
+    "found_by": "concept",
+    "differs_on": [],
+    "reasoning": "02-delhivery-annual-report-fy24-excerpt p.22 and probe-note-delhivery p.1 both report revenue from operations for Delhivery in FY2023: ₹72,253.01 million and Rs 72,253.01 million. They differ by 0.00%, inside the tolerance implied by the precision each document states.",
+    "left": {
+      "fact_id": "e81dbeefbddb74fa",
+      "doc_id": "de6d79adc066",
+      "page_no": 22,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "revenue from operations",
+      "metric_key": "revenue operation",
+      "concept_id": "cfcb60bc535",
+      "value": 72253010000.0,
+      "unit": "INR",
+      "display": "₹72,253.01 million",
+      "period": "FY2023",
+      "period_kind": "fy",
+      "context": {
+        "consolidation": "consolidated"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "y The revenue from operations on consolidated basis for FY24 stood at ₹ 81,415.38 million as against ₹72,253.01 million for FY23, registering a growth of 12.68%.",
+        "char_start": 1600,
+        "char_end": 1761,
+        "value_offset": [
+          101,
+          119
+        ]
+      },
+      "document": {
+        "title": "02-delhivery-annual-report-fy24-excerpt",
+        "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "collection": "delhivery"
+      }
+    },
+    "right": {
+      "fact_id": "292260a95e1cedac",
+      "doc_id": "f92d57b3d748",
+      "page_no": 1,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "revenue from operations",
+      "metric_key": "revenue operation",
+      "concept_id": "cfcb60bc535",
+      "value": 72253010000.0,
+      "unit": "INR",
+      "display": "Rs 72,253.01 million",
+      "period": "FY2023",
+      "period_kind": "fy",
+      "context": {
+        "consolidation": "consolidated"
+      },
+      "confidence": 0.855,
+      "extractor": "rules",
+      "evidence": {
+        "text": "The revenue from operations on consolidated basis for FY24 stood at Rs 79,900.00 million as against Rs 72,253.01 million for FY23.",
+        "char_start": 125,
+        "char_end": 255,
+        "value_offset": [
+          100,
+          120
+        ]
+      },
+      "document": {
+        "title": "probe-note-delhivery",
+        "filename": "probe-note-delhivery.pdf",
+        "collection": "delhivery"
+      }
+    }
+  },
+  {
+    "relation": "corroborates",
+    "confidence": 0.769,
+    "found_by": "value_bridge",
+    "differs_on": [
+      "metric wording"
+    ],
+    "reasoning": "02-delhivery-annual-report-fy24-excerpt p.36 reports \"Revenues from customers\" as ₹72,253.01 million and probe-note-delhivery p.1 reports \"revenue from operations\" as Rs 72,253.01 million. The wording differs, but both are stated for Delhivery in FY2023 in the same unit and agree to within the precision each states, so they are the same measure reported two ways.",
+    "left": {
+      "fact_id": "f6d478b897fa34cd",
+      "doc_id": "de6d79adc066",
+      "page_no": 36,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Revenues from customers",
+      "metric_key": "revenue customer",
+      "concept_id": "cb39f008e31",
+      "value": 72253010000.0,
+      "unit": "INR",
+      "display": "₹72,253.01 million",
+      "period": "FY2023",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Revenues from customers increased by 12.68% to ₹81,415.38 million for FY24 from ₹72,253.01 million for FY23.",
+        "char_start": 3707,
+        "char_end": 3815,
+        "value_offset": [
+          80,
+          98
+        ]
+      },
+      "document": {
+        "title": "02-delhivery-annual-report-fy24-excerpt",
+        "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "collection": "delhivery"
+      }
+    },
+    "right": {
+      "fact_id": "292260a95e1cedac",
+      "doc_id": "f92d57b3d748",
+      "page_no": 1,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "revenue from operations",
+      "metric_key": "revenue operation",
+      "concept_id": "cfcb60bc535",
+      "value": 72253010000.0,
+      "unit": "INR",
+      "display": "Rs 72,253.01 million",
+      "period": "FY2023",
+      "period_kind": "fy",
+      "context": {
+        "consolidation": "consolidated"
+      },
+      "confidence": 0.855,
+      "extractor": "rules",
+      "evidence": {
+        "text": "The revenue from operations on consolidated basis for FY24 stood at Rs 79,900.00 million as against Rs 72,253.01 million for FY23.",
+        "char_start": 125,
+        "char_end": 255,
+        "value_offset": [
+          100,
+          120
+        ]
+      },
+      "document": {
+        "title": "probe-note-delhivery",
+        "filename": "probe-note-delhivery.pdf",
+        "collection": "delhivery"
+      }
+    }
+  },
+  {
+    "relation": "corroborates",
+    "confidence": 0.769,
+    "found_by": "value_bridge",
+    "differs_on": [
+      "metric wording"
+    ],
+    "reasoning": "02-delhivery-annual-report-fy24-excerpt p.22 reports \"revenue from operations\" as ₹ 81,415.38 million and 03-delhivery-q4-fy24-earnings-presentation p.6 reports \"revenue from services\" as ₹8,142 Cr. The wording differs, but both are stated for Delhivery in FY2024 in the same unit and agree to within the precision each states, so they are the same measure reported two ways.",
+    "left": {
+      "fact_id": "a4a5cd27f189429c",
+      "doc_id": "de6d79adc066",
+      "page_no": 22,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "revenue from operations",
+      "metric_key": "revenue operation",
+      "concept_id": "cfcb60bc535",
+      "value": 81415380000.0,
+      "unit": "INR",
+      "display": "₹ 81,415.38 million",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {
+        "consolidation": "consolidated"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "y The revenue from operations on consolidated basis for FY24 stood at ₹ 81,415.38 million as against ₹72,253.01 million for FY23, registering a growth of 12.68%.",
+        "char_start": 1600,
+        "char_end": 1761,
+        "value_offset": [
+          70,
+          89
+        ]
+      },
+      "document": {
+        "title": "02-delhivery-annual-report-fy24-excerpt",
+        "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "collection": "delhivery"
+      }
+    },
+    "right": {
+      "fact_id": "bad5cf3638d2454b",
+      "doc_id": "5ca307085c96",
+      "page_no": 6,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "revenue from services",
+      "metric_key": "revenue service",
+      "concept_id": "c7817cff0fc",
+      "value": 81420000000.0,
+      "unit": "INR",
+      "display": "₹8,142 Cr",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.855,
+      "extractor": "rules",
+      "evidence": {
+        "text": "₹8,142 Cr ₹127Cr / 1.6% ₹76Cr / 0.9%",
+        "char_start": 60,
+        "char_end": 96,
+        "value_offset": [
+          0,
+          9
+        ],
+        "label": {
+          "text": "FY24 revenue from services",
+          "char_start": 155,
+          "char_end": 181
+        }
+      },
+      "document": {
+        "title": "03-delhivery-q4-fy24-earnings-presentation",
+        "filename": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+        "collection": "delhivery"
+      }
+    }
+  },
+  {
+    "relation": "corroborates",
+    "confidence": 0.769,
+    "found_by": "value_bridge",
+    "differs_on": [
+      "metric wording"
+    ],
+    "reasoning": "02-delhivery-annual-report-fy24-excerpt p.36 reports \"Revenues from customers\" as ₹81,415.38 million and 03-delhivery-q4-fy24-earnings-presentation p.6 reports \"revenue from services\" as ₹8,142 Cr. The wording differs, but both are stated for Delhivery in FY2024 in the same unit and agree to within the precision each states, so they are the same measure reported two ways.",
+    "left": {
+      "fact_id": "6b66e17ea613d85c",
+      "doc_id": "de6d79adc066",
+      "page_no": 36,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Revenues from customers",
+      "metric_key": "revenue customer",
+      "concept_id": "cb39f008e31",
+      "value": 81415380000.0,
+      "unit": "INR",
+      "display": "₹81,415.38 million",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Revenues from customers increased by 12.68% to ₹81,415.38 million for FY24 from ₹72,253.01 million for FY23.",
+        "char_start": 3707,
+        "char_end": 3815,
+        "value_offset": [
+          47,
+          65
+        ]
+      },
+      "document": {
+        "title": "02-delhivery-annual-report-fy24-excerpt",
+        "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "collection": "delhivery"
+      }
+    },
+    "right": {
+      "fact_id": "bad5cf3638d2454b",
+      "doc_id": "5ca307085c96",
+      "page_no": 6,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "revenue from services",
+      "metric_key": "revenue service",
+      "concept_id": "c7817cff0fc",
+      "value": 81420000000.0,
+      "unit": "INR",
+      "display": "₹8,142 Cr",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.855,
+      "extractor": "rules",
+      "evidence": {
+        "text": "₹8,142 Cr ₹127Cr / 1.6% ₹76Cr / 0.9%",
+        "char_start": 60,
+        "char_end": 96,
+        "value_offset": [
+          0,
+          9
+        ],
+        "label": {
+          "text": "FY24 revenue from services",
+          "char_start": 155,
+          "char_end": 181
+        }
+      },
+      "document": {
+        "title": "03-delhivery-q4-fy24-earnings-presentation",
+        "filename": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+        "collection": "delhivery"
+      }
+    }
+  },
+  {
+    "relation": "corroborates",
+    "confidence": 0.769,
+    "found_by": "value_bridge",
+    "differs_on": [
+      "metric wording"
+    ],
+    "reasoning": "02-delhivery-annual-report-fy24-excerpt p.36 reports \"Express parcel shipment volumes growth\" as 11.48% and 03-delhivery-q4-fy24-earnings-presentation p.6 reports \"Express parcel shipments\" as 11.5%. The wording differs, but both are stated for Delhivery in FY2024 in the same unit and agree to within the precision each states, so they are the same measure reported two ways.",
+    "left": {
+      "fact_id": "3765823a324a0cfe",
+      "doc_id": "de6d79adc066",
+      "page_no": 36,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Express parcel shipment volumes growth",
+      "metric_key": "express parcel shipment volume growth",
+      "concept_id": "c6bc5e2dcaa",
+      "value": 11.48,
+      "unit": "percent",
+      "display": "11.48%",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Express parcel shipment volumes increased by 11.48% to 740 million parcels for FY24 from 663 million parcels for FY23.",
+        "char_start": 3942,
+        "char_end": 4060,
+        "value_offset": [
+          45,
+          51
+        ]
+      },
+      "document": {
+        "title": "02-delhivery-annual-report-fy24-excerpt",
+        "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "collection": "delhivery"
+      }
+    },
+    "right": {
+      "fact_id": "23644b994e26e046",
+      "doc_id": "5ca307085c96",
+      "page_no": 6,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Express parcel shipments",
+      "metric_key": "express parcel shipment",
+      "concept_id": "cf59a4f5982",
+      "value": 11.5,
+      "unit": "percent",
+      "display": "11.5%",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {
+        "comparison": "yoy"
+      },
+      "confidence": 0.855,
+      "extractor": "rules",
+      "evidence": {
+        "text": "YoY: 11.5% YoY: 29.8%",
+        "char_start": 331,
+        "char_end": 352,
+        "value_offset": [
+          5,
+          10
+        ],
+        "label": {
+          "text": "Express parcel shipments in FY24",
+          "char_start": 269,
+          "char_end": 301
+        }
+      },
+      "document": {
+        "title": "03-delhivery-q4-fy24-earnings-presentation",
+        "filename": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+        "collection": "delhivery"
+      }
+    }
+  }
+]

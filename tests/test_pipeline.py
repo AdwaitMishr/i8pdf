@@ -109,3 +109,22 @@ def test_api_rejects_non_pdf(tmp_path):
     response = client.post("/api/documents",
                            files={"file": ("notes.txt", b"hello", "text/plain")})
     assert response.status_code == 400
+
+
+def test_ingest_is_reproducible(tmp_path, probe_pdfs):
+    """Two runs over the same PDFs must agree, or no report can be trusted.
+
+    Concept assignment used to iterate a set, whose order varies with Python's
+    per-process string hash seed, so equally close concepts won on different runs.
+    """
+    def run(name):
+        store = Store(tmp_path / name)
+        for path in probe_pdfs:
+            ingest(store, path, collection="probe")
+        stats = store.stats()
+        rows = [(r["relation"], r["confidence"], r["explanation"])
+                for r in store.relations(limit=500)]
+        store.close()
+        return stats, sorted(rows)
+
+    assert run("first.db") == run("second.db")

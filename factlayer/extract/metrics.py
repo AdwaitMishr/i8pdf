@@ -69,7 +69,10 @@ STOPPERS = {
     # Unit words belong to the quantity, never inside the metric phrase.
     "cent", "percent", "percentage", "crore", "lakh", "million", "billion",
 }
-_PUNCT = set(",;:()[]{}—–/\"")
+def _is_punct(token: str) -> bool:
+    """A token carrying no letters or digits ends a noun phrase."""
+    return not any(c.isalnum() for c in token)
+
 _TOKEN = re.compile(r"[A-Za-z][A-Za-z.'’&-]*|[^\sA-Za-z]")
 _MAX_TOKENS = 7
 # "India's real GDP" names its owner; that owner is the subject, not the metric.
@@ -93,6 +96,10 @@ def _masked(start: int, end: int, spans: list[tuple[int, int]]) -> bool:
 
 
 def _clean(words: list[str]) -> str:
+    # A token may legitimately contain a full stop ("Adj.", "e.g"), but a
+    # sentence-final one belongs to the sentence, not to the metric.
+    words = [w.rstrip(".") for w in words]
+    words = [w for w in words if w]
     while words and words[0].lower() in INTERNAL:
         words.pop(0)
     while words and words[-1].lower() in INTERNAL:
@@ -101,14 +108,23 @@ def _clean(words: list[str]) -> str:
 
 
 def phrase_for(text: str, value_start: int, claimed: list[tuple[int, int]],
-               topic: str | None = None) -> MetricPhrase:
+               topic: str | None = None,
+               barriers: list[tuple[int, int]] | None = None) -> MetricPhrase:
     """Metric phrase governing the value that starts at ``value_start``.
 
     ``claimed`` are spans already consumed by the period, qualifier and quantity
     parsers; they are stepped over rather than read.  ``topic`` is the metric of
     the first value in the same sentence, used to give a bare "growth of 11.9%"
     back the subject it is a growth *of*.
+
+    ``barriers`` are the other values in the sentence.  Once a noun phrase has
+    started, reaching another value ends it: in "740 million parcels for FY24
+    from 663 million parcels for FY23" the words before the 663 belong to it, and
+    walking straight through would collect "parcels" twice.  Before the phrase
+    has started they are stepped over, so "A as against B" still finds the metric
+    that governs both.
     """
+    barriers = barriers or []
     toks = [t for t in _tokens(text) if t[2] <= value_start]
     words: list[str] = []
     is_rate = False
@@ -116,12 +132,20 @@ def phrase_for(text: str, value_start: int, claimed: list[tuple[int, int]],
     first, last = None, None
     owner: str | None = None
     right_token = ""      # the token just to the right of the one being read
+    crossed_value = False  # whether another value lies between here and ours
 
     for token, start, end in reversed(toks):
         low = token.lower()
+        if _masked(start, end, barriers):
+            if collecting:
+                break
+            # "increased by 11.48% to 740 million": the "by" governs the 11.48,
+            # so a growth verb beyond it does not make *this* value a rate.
+            crossed_value = True
+            continue
         if _masked(start, end, claimed):
             continue
-        if token in _PUNCT:
+        if _is_punct(token):
             if collecting:
                 break
             right_token = low
@@ -135,7 +159,7 @@ def phrase_for(text: str, value_start: int, claimed: list[tuple[int, int]],
         if low in GROWTH_WORDS:
             # "grew by 6.5 per cent" is a rate; "declined to 0.6 per cent of GDP"
             # is a level the measure fell to.  The preposition decides.
-            is_rate = right_token != "to"
+            is_rate = right_token != "to" and not crossed_value
             if low in DERIVATIVE and not collecting:
                 collecting = True
                 words.append(token)
@@ -183,17 +207,23 @@ def phrase_for(text: str, value_start: int, claimed: list[tuple[int, int]],
     return MetricPhrase(phrase, is_rate, span, owner)
 
 
-def phrase_after(text: str, value_end: int, claimed: list[tuple[int, int]]) -> MetricPhrase:
+def phrase_after(text: str, value_end: int, claimed: list[tuple[int, int]],
+                 barriers: list[tuple[int, int]] | None = None) -> MetricPhrase:
     """Fallback for layouts that put the number first ("₹8,142 Cr / FY24 revenue")."""
+    barriers = barriers or []
     words: list[str] = []
     first, last = None, None
     for token, start, end in _tokens(text):
         if end <= value_end:
             continue
         low = token.lower()
+        if _masked(start, end, barriers):
+            if words:
+                break
+            continue
         if _masked(start, end, claimed):
             continue
-        if token in _PUNCT:
+        if _is_punct(token):
             if words:
                 break
             continue
@@ -211,15 +241,16 @@ def phrase_after(text: str, value_end: int, claimed: list[tuple[int, int]]) -> M
 
 
 def choose(text: str, quantity, claimed: list[tuple[int, int]],
-           topic: str | None) -> MetricPhrase:
+           topic: str | None,
+           barriers: list[tuple[int, int]] | None = None) -> MetricPhrase:
     """Pick the phrase on the side of the number that actually names the metric.
 
     Currency and percentage values follow their metric ("revenue ... was X"),
     while counts and weights precede the noun they count ("33,000 customers").
     """
-    before = phrase_for(text, quantity.start, claimed, topic)
+    before = phrase_for(text, quantity.start, claimed, topic, barriers)
     if quantity.unit in ("count", "tonne", "day"):
-        after = phrase_after(text, quantity.end, claimed)
+        after = phrase_after(text, quantity.end, claimed, barriers)
         if after.text and len(after.text) >= len(before.text) // 2:
             return MetricPhrase(after.text, before.is_rate, after.span, before.subject_hint)
     return before

@@ -1,0 +1,202 @@
+[
+  {
+    "concept_id": "ccc322f1a54",
+    "label": "preference shares",
+    "n_facts": 137
+  },
+  {
+    "concept_id": "c6caa192350",
+    "label": "equity shares",
+    "n_facts": 116
+  },
+  {
+    "concept_id": "c030ef4a526",
+    "label": "Male",
+    "n_facts": 67
+  },
+  {
+    "concept_id": "c96a1a08dcd",
+    "label": "Female",
+    "n_facts": 55
+  },
+  {
+    "concept_id": "cbf3b4eb29d",
+    "label": "Delhivery Limited",
+    "n_facts": 52
+  },
+  {
+    "concept_id": "cd6a141b3dc",
+    "label": "Annual Report",
+    "n_facts": 51
+  },
+  {
+    "concept_id": "cd4f1f8d18a",
+    "label": "refer note",
+    "n_facts": 49
+  },
+  {
+    "concept_id": "c05a99fdacc",
+    "label": "GDP growth",
+    "n_facts": 47
+  },
+  {
+    "concept_id": "c5b6b2835a0",
+    "label": "Permanent workers",
+    "n_facts": 38
+  },
+  {
+    "concept_id": "c694e5a7ddc",
+    "label": "Revenue",
+    "n_facts": 35
+  },
+  {
+    "concept_id": "cb39f008e31",
+    "label": "customers",
+    "n_facts": 35
+  },
+  {
+    "concept_id": "cb550ae9642",
+    "label": "EBITDA",
+    "n_facts": 35
+  },
+  {
+    "concept_id": "c4cf5bc59be",
+    "label": "Services",
+    "n_facts": 30
+  },
+  {
+    "concept_id": "ccfdaf48ccf",
+    "label": "Equity Shares aggregating",
+    "n_facts": 28
+  },
+  {
+    "concept_id": "cf59a4f5982",
+    "label": "Express parcel shipments",
+    "n_facts": 26
+  },
+  {
+    "concept_id": "c59bc77dde5",
+    "label": "volatility",
+    "n_facts": 22
+  },
+  {
+    "concept_id": "c74f54c2f48",
+    "label": "loss",
+    "n_facts": 21
+  },
+  {
+    "concept_id": "cb5366a2d2a",
+    "label": "nil",
+    "n_facts": 21
+  },
+  {
+    "concept_id": "cfcb60bc535",
+    "label": "revenue from operations",
+    "n_facts": 21
+  },
+  {
+    "concept_id": "cb3c3922948",
+    "label": "Projects in progress",
+    "n_facts": 20
+  },
+  {
+    "concept_id": "c7b3ce27389",
+    "label": "tax",
+    "n_facts": 19
+  },
+  {
+    "concept_id": "cdd0d63aa19",
+    "label": "employees",
+    "n_facts": 19
+  },
+  {
+    "concept_id": "cf94664f04f",
+    "label": "Share based payment",
+    "n_facts": 19
+  },
+  {
+    "concept_id": "c64114a39af",
+    "label": "(In billions of rupees, end-period)",
+    "n_facts": 18
+  },
+  {
+    "concept_id": "c7371f90149",
+    "label": "share capital",
+    "n_facts": 18
+  },
+  {
+    "concept_id": "c7bbdaae0c6",
+    "label": "Employee Stock Options Exercised",
+    "n_facts": 18
+  },
+  {
+    "concept_id": "c7c86fbd5a0",
+    "label": "Financial Statements",
+    "n_facts": 18
+  },
+  {
+    "concept_id": "c258739be09",
+    "label": "Mumbai Maharashtra, India",
+    "n_facts": 17
+  },
+  {
+    "concept_id": "c8699f2b04f",
+    "label": "Permanent Employees",
+    "n_facts": 17
+  },
+  {
+    "concept_id": "cb151dc8680",
+    "label": "net inflows",
+    "n_facts": 17
+  },
+  {
+    "concept_id": "c8caab23d09",
+    "label": "GDP deflator",
+    "n_facts": 16
+  },
+  {
+    "concept_id": "ceb9f4b9b39",
+    "label": "Risk-free interest rate",
+    "n_facts": 16
+  },
+  {
+    "concept_id": "c34a7962212",
+    "label": "growth",
+    "n_facts": 15
+  },
+  {
+    "concept_id": "c489c7fc833",
+    "label": "below",
+    "n_facts": 15
+  },
+  {
+    "concept_id": "c5ae0663b31",
+    "label": "shares of each",
+    "n_facts": 15
+  },
+  {
+    "concept_id": "cb9a5161573",
+    "label": "Headline inflation",
+    "n_facts": 15
+  },
+  {
+    "concept_id": "c72d2560198",
+    "label": "New Delhi Delhi, India",
+    "n_facts": 14
+  },
+  {
+    "concept_id": "c884c2d0e48",
+    "label": "Ms Pooja Gupta Mr Kapil Bharati",
+    "n_facts": 14
+  },
+  {
+    "concept_id": "ce05eea2e88",
+    "label": "Share in total Comprehensive loss income as % of total consolidated comprehensive",
+    "n_facts": 14
+  },
+  {
+    "concept_id": "cf2b27af59f",
+    "label": "numbers",
+    "n_facts": 14
+  }
+]

@@ -130,12 +130,17 @@ class ConceptIndex:
             self._by_token[token].add(best_id)
         return best_id
 
-    def _candidates(self, metric_key: str) -> set[str]:
-        """Only concepts sharing a token can clear the threshold."""
+    def _candidates(self, metric_key: str) -> list[str]:
+        """Only concepts sharing a token can clear the threshold.
+
+        Returned sorted: set iteration order varies with Python's per-process
+        string hash seed, and without an order two equally close concepts would
+        win on different runs, making the whole layer irreproducible.
+        """
         out: set[str] = set()
         for token in set(metric_key.split()):
             out |= self._by_token[token]
-        return out
+        return sorted(out)
 
     # -- aliases ---------------------------------------------------------
     def merge(self, left_key: str, right_key: str) -> str | None:

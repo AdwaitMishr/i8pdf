@@ -1,0 +1,367 @@
+[
+  {
+    "relation": "part_of",
+    "confidence": 0.855,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "2024-12 sits inside FY2025, so USD 10.6 billion (01-india-economic-survey-2024-25-excerpt p.31) is a component of US$ 255.7 billion (02-rbi-annual-report-2024-25-excerpt p.76) for net inflows of India. The component does not exceed the total, as expected.",
+    "left": {
+      "fact_id": "fea7799d6f62f355",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 31,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "Net FPI inflows",
+      "metric_key": "net fpi inflow",
+      "concept_id": "cb151dc8680",
+      "value": 10600000000.0,
+      "unit": "USD",
+      "display": "USD 10.6 billion",
+      "period": "2024-12",
+      "period_kind": "month",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Net FPI inflows slowed to USD 10.6 billion in April - December 2024 from USD 31.7 billion during the same period the previous year.",
+        "char_start": 544,
+        "char_end": 675,
+        "value_offset": [
+          26,
+          42
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "96f924963e954d54",
+      "doc_id": "73209a2caa2f",
+      "page_no": 76,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net portfolio inflows",
+      "metric_key": "net portfolio inflow",
+      "concept_id": "cb151dc8680",
+      "value": 255700000000.0,
+      "unit": "USD",
+      "display": "US$ 255.7 billion",
+      "period": "FY2025",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "II.7.4 Emerging market economies (EMEs) recorded net portfolio inflows of US$ 255.7 billion during 2024-25 as compared with US$ 220.1 billion during 2023-24 (Chart II.7.2).",
+        "char_start": 1590,
+        "char_end": 1762,
+        "value_offset": [
+          74,
+          91
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "part_of",
+    "confidence": 0.855,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "Q2 FY2025 sits inside FY2025, so USD 30.5 billion (01-india-economic-survey-2024-25-excerpt p.64) is a component of US$ 255.7 billion (02-rbi-annual-report-2024-25-excerpt p.76) for net inflows of India. The component does not exceed the total, as expected.",
+    "left": {
+      "fact_id": "bfd6e9a26f5303f7",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 64,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net capital inflows",
+      "metric_key": "net capital inflow",
+      "concept_id": "cb151dc8680",
+      "value": 30500000000.0,
+      "unit": "USD",
+      "display": "USD 30.5 billion",
+      "period": "Q2 FY2025",
+      "period_kind": "quarter",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "In Q2 of FY25, net capital inflows stood at USD 30.5 billion, a significant increase from the USD 12.8 billion recorded during the same period in the previous year.",
+        "char_start": 519,
+        "char_end": 683,
+        "value_offset": [
+          44,
+          60
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "96f924963e954d54",
+      "doc_id": "73209a2caa2f",
+      "page_no": 76,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "net portfolio inflows",
+      "metric_key": "net portfolio inflow",
+      "concept_id": "cb151dc8680",
+      "value": 255700000000.0,
+      "unit": "USD",
+      "display": "US$ 255.7 billion",
+      "period": "FY2025",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "II.7.4 Emerging market economies (EMEs) recorded net portfolio inflows of US$ 255.7 billion during 2024-25 as compared with US$ 220.1 billion during 2023-24 (Chart II.7.2).",
+        "char_start": 1590,
+        "char_end": 1762,
+        "value_offset": [
+          74,
+          91
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "part_of",
+    "confidence": 0.855,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "Q2 FY2025 sits inside FY2025, so USD 75.3 billion (01-india-economic-survey-2024-25-excerpt p.62) is a component of US$ 282.8 billion (02-rbi-annual-report-2024-25-excerpt p.11) for merchandise trade deficit of India. The component does not exceed the total, as expected.",
+    "left": {
+      "fact_id": "aea82f0d198fdb0f",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 62,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "merchandise trade deficit",
+      "metric_key": "merchandise trade deficit",
+      "concept_id": "c5436bbb0bf",
+      "value": 75300000000.0,
+      "unit": "USD",
+      "display": "USD 75.3 billion",
+      "period": "Q2 FY2025",
+      "period_kind": "quarter",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "The recent rise in the CAD can be attributed to an increase in the merchandise trade deficit, which rose to USD 75.3 billion in Q2 of FY25 from USD 64.5 billion in the corresponding quarter of the previous year.",
+        "char_start": 1556,
+        "char_end": 1767,
+        "value_offset": [
+          108,
+          124
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "8619475bd3f7fec4",
+      "doc_id": "73209a2caa2f",
+      "page_no": 11,
+      "subject": "India",
+      "subject_source": "sentence",
+      "metric": "merchandise trade deficit widened",
+      "metric_key": "merchandise trade deficit widened",
+      "concept_id": "c5436bbb0bf",
+      "value": 282800000000.0,
+      "unit": "USD",
+      "display": "US$ 282.8 billion",
+      "period": "FY2025",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Consequently, India's merchandise trade deficit widened to US$ 282.8 billion during 2024-25 from US$ 241.1 billion a year ago.",
+        "char_start": 2668,
+        "char_end": 2794,
+        "value_offset": [
+          59,
+          76
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "part_of",
+    "confidence": 0.855,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "Q2 FY2025 sits inside FY2025, so USD 75.3 billion (01-india-economic-survey-2024-25-excerpt p.62) is a component of US$ 282.8 billion (02-rbi-annual-report-2024-25-excerpt p.81) for merchandise trade deficit of India. The component does not exceed the total, as expected.",
+    "left": {
+      "fact_id": "aea82f0d198fdb0f",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 62,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "merchandise trade deficit",
+      "metric_key": "merchandise trade deficit",
+      "concept_id": "c5436bbb0bf",
+      "value": 75300000000.0,
+      "unit": "USD",
+      "display": "USD 75.3 billion",
+      "period": "Q2 FY2025",
+      "period_kind": "quarter",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "The recent rise in the CAD can be attributed to an increase in the merchandise trade deficit, which rose to USD 75.3 billion in Q2 of FY25 from USD 64.5 billion in the corresponding quarter of the previous year.",
+        "char_start": 1556,
+        "char_end": 1767,
+        "value_offset": [
+          108,
+          124
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "0705f965713b4f1f",
+      "doc_id": "73209a2caa2f",
+      "page_no": 81,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "Merchandise trade deficit widened",
+      "metric_key": "merchandise trade deficit widened",
+      "concept_id": "c5436bbb0bf",
+      "value": 282800000000.0,
+      "unit": "USD",
+      "display": "US$ 282.8 billion",
+      "period": "FY2025",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "II.7.17 Merchandise trade deficit widened to US$ 282.8 billion in 2024-25 from US$ 241.1 billion a year ago.",
+        "char_start": 1034,
+        "char_end": 1142,
+        "value_offset": [
+          45,
+          62
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "part_of",
+    "confidence": 0.855,
+    "found_by": "concept",
+    "differs_on": [
+      "period"
+    ],
+    "reasoning": "Q2 FY2025 sits inside FY2025, so USD 64.5 billion (01-india-economic-survey-2024-25-excerpt p.62) is a component of US$ 282.8 billion (02-rbi-annual-report-2024-25-excerpt p.11) for merchandise trade deficit of India. The component does not exceed the total, as expected.",
+    "left": {
+      "fact_id": "5fe57f9ca9e61631",
+      "doc_id": "86f2e79a3b7b",
+      "page_no": 62,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "merchandise trade deficit",
+      "metric_key": "merchandise trade deficit",
+      "concept_id": "c5436bbb0bf",
+      "value": 64500000000.0,
+      "unit": "USD",
+      "display": "USD 64.5 billion",
+      "period": "Q2 FY2025",
+      "period_kind": "quarter",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "The recent rise in the CAD can be attributed to an increase in the merchandise trade deficit, which rose to USD 75.3 billion in Q2 of FY25 from USD 64.5 billion in the corresponding quarter of the previous year.",
+        "char_start": 1556,
+        "char_end": 1767,
+        "value_offset": [
+          144,
+          160
+        ]
+      },
+      "document": {
+        "title": "01-india-economic-survey-2024-25-excerpt",
+        "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "8619475bd3f7fec4",
+      "doc_id": "73209a2caa2f",
+      "page_no": 11,
+      "subject": "India",
+      "subject_source": "sentence",
+      "metric": "merchandise trade deficit widened",
+      "metric_key": "merchandise trade deficit widened",
+      "concept_id": "c5436bbb0bf",
+      "value": 282800000000.0,
+      "unit": "USD",
+      "display": "US$ 282.8 billion",
+      "period": "FY2025",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Consequently, India's merchandise trade deficit widened to US$ 282.8 billion during 2024-25 from US$ 241.1 billion a year ago.",
+        "char_start": 2668,
+        "char_end": 2794,
+        "value_offset": [
+          59,
+          76
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  }
+]

@@ -1,0 +1,599 @@
+[
+  {
+    "relation": "contradicts",
+    "confidence": 0.72,
+    "found_by": "concept",
+    "differs_on": [],
+    "reasoning": "Express parcel shipments for Delhivery in FY2024 is reported as 740 million by 02-delhivery-annual-report-fy24-excerpt p.36 and 705 Mn. by probe-note-delhivery p.1. No difference in period, basis, vintage or adjustment was found between the two statements, and the gap of 4.73% is larger than their stated precision allows.",
+    "left": {
+      "fact_id": "2aa6ef45022eda3c",
+      "doc_id": "de6d79adc066",
+      "page_no": 36,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Express parcel shipment volumes",
+      "metric_key": "express parcel shipment volume",
+      "concept_id": "cf59a4f5982",
+      "value": 740000000.0,
+      "unit": "count",
+      "display": "740 million",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.8,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Express parcel shipment volumes increased by 11.48% to 740 million parcels for FY24 from 663 million parcels for FY23.",
+        "char_start": 3942,
+        "char_end": 4060,
+        "value_offset": [
+          55,
+          66
+        ]
+      },
+      "document": {
+        "title": "02-delhivery-annual-report-fy24-excerpt",
+        "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "collection": "delhivery"
+      }
+    },
+    "right": {
+      "fact_id": "b3790b631d9c9d16",
+      "doc_id": "f92d57b3d748",
+      "page_no": 1,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Express parcel shipments",
+      "metric_key": "express parcel shipment",
+      "concept_id": "cf59a4f5982",
+      "value": 705000000.0,
+      "unit": "count",
+      "display": "705 Mn.",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.8,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Express parcel shipments in FY24 were 705 Mn.",
+        "char_start": 257,
+        "char_end": 302,
+        "value_offset": [
+          38,
+          45
+        ]
+      },
+      "document": {
+        "title": "probe-note-delhivery",
+        "filename": "probe-note-delhivery.pdf",
+        "collection": "delhivery"
+      }
+    }
+  },
+  {
+    "relation": "contradicts",
+    "confidence": 0.648,
+    "found_by": "concept",
+    "differs_on": [],
+    "reasoning": "Express parcel shipments for Delhivery in FY2024 is reported as 705 Mn. by probe-note-delhivery p.1 and 740 Mn by 03-delhivery-q4-fy24-earnings-presentation p.6. No difference in period, basis, vintage or adjustment was found between the two statements, and the gap of 4.73% is larger than their stated precision allows.",
+    "left": {
+      "fact_id": "b3790b631d9c9d16",
+      "doc_id": "f92d57b3d748",
+      "page_no": 1,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Express parcel shipments",
+      "metric_key": "express parcel shipment",
+      "concept_id": "cf59a4f5982",
+      "value": 705000000.0,
+      "unit": "count",
+      "display": "705 Mn.",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.8,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Express parcel shipments in FY24 were 705 Mn.",
+        "char_start": 257,
+        "char_end": 302,
+        "value_offset": [
+          38,
+          45
+        ]
+      },
+      "document": {
+        "title": "probe-note-delhivery",
+        "filename": "probe-note-delhivery.pdf",
+        "collection": "delhivery"
+      }
+    },
+    "right": {
+      "fact_id": "17af98a27c2bc2dc",
+      "doc_id": "5ca307085c96",
+      "page_no": 6,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Express parcel shipments",
+      "metric_key": "express parcel shipment",
+      "concept_id": "cf59a4f5982",
+      "value": 740000000.0,
+      "unit": "count",
+      "display": "740 Mn",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {},
+      "confidence": 0.72,
+      "extractor": "rules",
+      "evidence": {
+        "text": "740 Mn 1.4 Mn Tons",
+        "char_start": 249,
+        "char_end": 267,
+        "value_offset": [
+          0,
+          6
+        ],
+        "label": {
+          "text": "Express parcel shipments in FY24",
+          "char_start": 269,
+          "char_end": 301
+        }
+      },
+      "document": {
+        "title": "03-delhivery-q4-fy24-earnings-presentation",
+        "filename": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+        "collection": "delhivery"
+      }
+    }
+  },
+  {
+    "relation": "contradicts",
+    "confidence": 0.855,
+    "found_by": "concept",
+    "differs_on": [],
+    "reasoning": "GDP growth for India in FY2026 is reported as 6.6 percent by India: 2025 Article IV Consultation-Press Release… p.3 and 6.5 per cent by probe-note-india p.1. No difference in period, basis, vintage or adjustment was found between the two statements, and the gap of 0.10 percentage points is larger than their stated precision allows.",
+    "left": {
+      "fact_id": "043ac5af53bd329d",
+      "doc_id": "f6d3cfecafd9",
+      "page_no": 3,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "GDP growth",
+      "metric_key": "gdp growth",
+      "concept_id": "c05a99fdacc",
+      "value": 6.6,
+      "unit": "percent",
+      "display": "6.6 percent",
+      "period": "FY2026",
+      "period_kind": "fy",
+      "context": {
+        "price_basis": "real",
+        "vintage": "projection"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Under the baseline assumption of prolonged 50 percent U.S. tariffs, real GDP is projected to grow at 6.6 percent in FY2025/26 before moderating to 6.2 percent in FY2026/27.",
+        "char_start": 978,
+        "char_end": 1150,
+        "value_offset": [
+          101,
+          112
+        ]
+      },
+      "document": {
+        "title": "India: 2025 Article IV Consultation-Press Release; Staff Report; and Statement by the Executive Director for India; IMF Country Report No. 25/314; November 6, 2025",
+        "filename": "03-imf-india-2025-article-iv-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "40762c5eaf1e7447",
+      "doc_id": "061b791ab6e0",
+      "page_no": 1,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "GDP growth",
+      "metric_key": "gdp growth",
+      "concept_id": "c05a99fdacc",
+      "value": 6.5,
+      "unit": "percent",
+      "display": "6.5 per cent",
+      "period": "FY2026",
+      "period_kind": "fy",
+      "context": {
+        "price_basis": "real",
+        "vintage": "projection"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Real GDP growth for 2025-26 is projected at 6.5 per cent.",
+        "char_start": 254,
+        "char_end": 311,
+        "value_offset": [
+          44,
+          56
+        ]
+      },
+      "document": {
+        "title": "probe-note-india",
+        "filename": "probe-note-india.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "contradicts",
+    "confidence": 0.855,
+    "found_by": "concept",
+    "differs_on": [],
+    "reasoning": "GDP growth for India in FY2025 is reported as 6.5 percent by India: 2025 Article IV Consultation-Press Release… p.10 and 7.1 percent by probe-note-india p.1. No difference in period, basis, vintage or adjustment was found between the two statements, and the gap of 0.60 percentage points is larger than their stated precision allows.",
+    "left": {
+      "fact_id": "0be31041bdf0dc4e",
+      "doc_id": "f6d3cfecafd9",
+      "page_no": 10,
+      "subject": "India",
+      "subject_source": "sentence",
+      "metric": "GDP growth",
+      "metric_key": "gdp growth",
+      "concept_id": "c05a99fdacc",
+      "value": 6.5,
+      "unit": "percent",
+      "display": "6.5 percent",
+      "period": "FY2025",
+      "period_kind": "fy",
+      "context": {
+        "price_basis": "real"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "India's real GDP grew by 6.5 percent in FY2024/25.",
+        "char_start": 258,
+        "char_end": 308,
+        "value_offset": [
+          25,
+          36
+        ]
+      },
+      "document": {
+        "title": "India: 2025 Article IV Consultation-Press Release; Staff Report; and Statement by the Executive Director for India; IMF Country Report No. 25/314; November 6, 2025",
+        "filename": "03-imf-india-2025-article-iv-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "8138e14a6de904c1",
+      "doc_id": "061b791ab6e0",
+      "page_no": 1,
+      "subject": "India",
+      "subject_source": "sentence",
+      "metric": "GDP growth",
+      "metric_key": "gdp growth",
+      "concept_id": "c05a99fdacc",
+      "value": 7.1,
+      "unit": "percent",
+      "display": "7.1 percent",
+      "period": "FY2025",
+      "period_kind": "fy",
+      "context": {
+        "price_basis": "real"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "India's real GDP grew by 7.1 percent in FY2024/25.",
+        "char_start": 126,
+        "char_end": 176,
+        "value_offset": [
+          25,
+          36
+        ]
+      },
+      "document": {
+        "title": "probe-note-india",
+        "filename": "probe-note-india.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "contradicts",
+    "confidence": 0.855,
+    "found_by": "concept",
+    "differs_on": [],
+    "reasoning": "GDP growth for India in FY2026 is reported as 6.6 percent by India: 2025 Article IV Consultation-Press Release… p.13 and 6.5 per cent by probe-note-india p.1. No difference in period, basis, vintage or adjustment was found between the two statements, and the gap of 0.10 percentage points is larger than their stated precision allows.",
+    "left": {
+      "fact_id": "6330d3c406791508",
+      "doc_id": "f6d3cfecafd9",
+      "page_no": 13,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "GDP growth",
+      "metric_key": "gdp growth",
+      "concept_id": "c05a99fdacc",
+      "value": 6.6,
+      "unit": "percent",
+      "display": "6.6 percent",
+      "period": "FY2026",
+      "period_kind": "fy",
+      "context": {
+        "vintage": "projection",
+        "price_basis": "real"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Under staff's baseline scenario, real GDP growth is projected at 6.6 percent in FY2025/26, helped by the strong 2025Q2 growth outturn, the GST reform, and a 2025Q3 nowcast pointing to continued momentum (Annex III), offsetting the adverse impact of U.S. tariffs (text table).",
+        "char_start": 1087,
+        "char_end": 1362,
+        "value_offset": [
+          65,
+          76
+        ]
+      },
+      "document": {
+        "title": "India: 2025 Article IV Consultation-Press Release; Staff Report; and Statement by the Executive Director for India; IMF Country Report No. 25/314; November 6, 2025",
+        "filename": "03-imf-india-2025-article-iv-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "40762c5eaf1e7447",
+      "doc_id": "061b791ab6e0",
+      "page_no": 1,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "GDP growth",
+      "metric_key": "gdp growth",
+      "concept_id": "c05a99fdacc",
+      "value": 6.5,
+      "unit": "percent",
+      "display": "6.5 per cent",
+      "period": "FY2026",
+      "period_kind": "fy",
+      "context": {
+        "price_basis": "real",
+        "vintage": "projection"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Real GDP growth for 2025-26 is projected at 6.5 per cent.",
+        "char_start": 254,
+        "char_end": 311,
+        "value_offset": [
+          44,
+          56
+        ]
+      },
+      "document": {
+        "title": "probe-note-india",
+        "filename": "probe-note-india.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "contradicts",
+    "confidence": 0.855,
+    "found_by": "concept",
+    "differs_on": [],
+    "reasoning": "Headline inflation for India in FY2025 is reported as 4.6 per cent by 02-rbi-annual-report-2024-25-excerpt p.9 and 5.9 per cent by probe-note-india p.1. No difference in period, basis, vintage or adjustment was found between the two statements, and the gap of 1.30 percentage points is larger than their stated precision allows.",
+    "left": {
+      "fact_id": "068646e50f571f24",
+      "doc_id": "73209a2caa2f",
+      "page_no": 9,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "Headline inflation",
+      "metric_key": "headline inflation",
+      "concept_id": "cb9a5161573",
+      "value": 4.6,
+      "unit": "percent",
+      "display": "4.6 per cent",
+      "period": "FY2025",
+      "period_kind": "fy",
+      "context": {
+        "aggregation": "average"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Headline inflation moderated to an average of 4.6 per cent during 2024-25 from 5.4 per cent in the previous year, largely driven by a moderation in core (CPI excluding food and fuel) inflation to 3.5 per cent and deflation in fuel at 2.5 per cent.",
+        "char_start": 2923,
+        "char_end": 3170,
+        "value_offset": [
+          46,
+          58
+        ]
+      },
+      "document": {
+        "title": "02-rbi-annual-report-2024-25-excerpt",
+        "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "collection": "india-macroeconomy"
+      }
+    },
+    "right": {
+      "fact_id": "b487549488cd0de2",
+      "doc_id": "061b791ab6e0",
+      "page_no": 1,
+      "subject": "India",
+      "subject_source": "document",
+      "metric": "Headline inflation",
+      "metric_key": "headline inflation",
+      "concept_id": "cb9a5161573",
+      "value": 5.9,
+      "unit": "percent",
+      "display": "5.9 per cent",
+      "period": "FY2025",
+      "period_kind": "fy",
+      "context": {
+        "aggregation": "average"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Headline inflation moderated to an average of 5.9 per cent during 2024-25.",
+        "char_start": 178,
+        "char_end": 252,
+        "value_offset": [
+          46,
+          58
+        ]
+      },
+      "document": {
+        "title": "probe-note-india",
+        "filename": "probe-note-india.pdf",
+        "collection": "india-macroeconomy"
+      }
+    }
+  },
+  {
+    "relation": "contradicts",
+    "confidence": 0.769,
+    "found_by": "concept",
+    "differs_on": [],
+    "reasoning": "revenue from operations for Delhivery in FY2024 is reported as ₹ 81,415.38 million by 02-delhivery-annual-report-fy24-excerpt p.22 and Rs 79,900.00 million by probe-note-delhivery p.1. No difference in period, basis, vintage or adjustment was found between the two statements, and the gap of 1.86% is larger than their stated precision allows.",
+    "left": {
+      "fact_id": "a4a5cd27f189429c",
+      "doc_id": "de6d79adc066",
+      "page_no": 22,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "revenue from operations",
+      "metric_key": "revenue operation",
+      "concept_id": "cfcb60bc535",
+      "value": 81415380000.0,
+      "unit": "INR",
+      "display": "₹ 81,415.38 million",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {
+        "consolidation": "consolidated"
+      },
+      "confidence": 0.95,
+      "extractor": "rules",
+      "evidence": {
+        "text": "y The revenue from operations on consolidated basis for FY24 stood at ₹ 81,415.38 million as against ₹72,253.01 million for FY23, registering a growth of 12.68%.",
+        "char_start": 1600,
+        "char_end": 1761,
+        "value_offset": [
+          70,
+          89
+        ]
+      },
+      "document": {
+        "title": "02-delhivery-annual-report-fy24-excerpt",
+        "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "collection": "delhivery"
+      }
+    },
+    "right": {
+      "fact_id": "7ee60bd496660b1b",
+      "doc_id": "f92d57b3d748",
+      "page_no": 1,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "revenue from operations",
+      "metric_key": "revenue operation",
+      "concept_id": "cfcb60bc535",
+      "value": 79900000000.0,
+      "unit": "INR",
+      "display": "Rs 79,900.00 million",
+      "period": "FY2024",
+      "period_kind": "fy",
+      "context": {
+        "consolidation": "consolidated"
+      },
+      "confidence": 0.855,
+      "extractor": "rules",
+      "evidence": {
+        "text": "The revenue from operations on consolidated basis for FY24 stood at Rs 79,900.00 million as against Rs 72,253.01 million for FY23.",
+        "char_start": 125,
+        "char_end": 255,
+        "value_offset": [
+          68,
+          88
+        ]
+      },
+      "document": {
+        "title": "probe-note-delhivery",
+        "filename": "probe-note-delhivery.pdf",
+        "collection": "delhivery"
+      }
+    }
+  },
+  {
+    "relation": "contradicts",
+    "confidence": 0.769,
+    "found_by": "concept",
+    "differs_on": [],
+    "reasoning": "Risk-free interest rate for Delhivery in 2024-03-31 is reported as 6.80% by 02-delhivery-annual-report-fy24-excerpt p.97 and 6.09% by 02-delhivery-annual-report-fy24-excerpt p.98. No difference in period, basis, vintage or adjustment was found between the two statements, and the gap of 0.71 percentage points is larger than their stated precision allows.",
+    "left": {
+      "fact_id": "b45cff27834c0f94",
+      "doc_id": "de6d79adc066",
+      "page_no": 97,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Risk-free interest rate",
+      "metric_key": "risk-free interest rate",
+      "concept_id": "ceb9f4b9b39",
+      "value": 6.8,
+      "unit": "percent",
+      "display": "6.80%",
+      "period": "2024-03-31",
+      "period_kind": "asof",
+      "context": {},
+      "confidence": 0.855,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Risk-free interest rate (%) 6.80% - 7.29% 6.50% - 7.40%",
+        "char_start": 1475,
+        "char_end": 1530,
+        "value_offset": [
+          28,
+          33
+        ]
+      },
+      "document": {
+        "title": "02-delhivery-annual-report-fy24-excerpt",
+        "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "collection": "delhivery"
+      }
+    },
+    "right": {
+      "fact_id": "0328dd0f88d3ca3c",
+      "doc_id": "de6d79adc066",
+      "page_no": 98,
+      "subject": "Delhivery",
+      "subject_source": "document",
+      "metric": "Risk-free interest rate",
+      "metric_key": "risk-free interest rate",
+      "concept_id": "ceb9f4b9b39",
+      "value": 6.09,
+      "unit": "percent",
+      "display": "6.09%",
+      "period": "2024-03-31",
+      "period_kind": "asof",
+      "context": {},
+      "confidence": 0.855,
+      "extractor": "rules",
+      "evidence": {
+        "text": "Risk-free interest rate (%) 6.09% 6.09%",
+        "char_start": 1830,
+        "char_end": 1869,
+        "value_offset": [
+          28,
+          33
+        ]
+      },
+      "document": {
+        "title": "02-delhivery-annual-report-fy24-excerpt",
+        "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "collection": "delhivery"
+      }
+    }
+  }
+]
