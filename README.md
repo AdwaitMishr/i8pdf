@@ -5,8 +5,6 @@ exact characters it came from, and works out where facts **corroborate**,
 **contradict**, or **only appear to contradict** because they are stated on
 different bases.
 
-Built for the Superjoin engineering intern assignment (`docs/superjoin-vit-2026-assignment.pdf`).
-
 On the six starter documents (511 pages) it extracts **4,818 grounded facts**
 and derives **8,860 relationships** in **39 seconds**, with no API key and
 no network access.
@@ -57,26 +55,11 @@ one-page note gives subject detection almost nothing to work with, hence the
 explicit `--subject`. They exist because the six starter documents contain no high-confidence
 cross-document contradiction — see Case 2 below.
 
-### Optional: the Claude pass
-
-Off by default; the system is complete without it.
-
-```bash
-pip install -r requirements-llm.txt
-export ANTHROPIC_API_KEY=...        # or `ant auth login`
-export FACTLAYER_LLM=anthropic
-.venv/bin/python -m factlayer ingest some.pdf
-```
-
 ---
 
 ## Video demo
 
-**TODO — add link before submitting (3 minutes or less).**
-
-The script is written and timed: **[`script.txt`](script.txt)** — 435 spoken
-words, 2:55 at a normal pace, with a setup checklist, per-section timecodes, what
-to have on screen, and the cuts to make in order if you run long.
+Gdrive Link: https://drive.google.com/drive/folders/19jcg5xTfGS7L0TPeu8fqrAxwM2TGjFhB?usp=sharing
 
 ---
 
