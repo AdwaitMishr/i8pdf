@@ -11,9 +11,11 @@ venv/
 *.db
 *.db-wal
 *.db-shm
-store/
+# Anchored with a leading slash: a bare "store/" matches a directory of that
+# name at ANY depth, which silently excluded factlayer/store/ from the repo.
+/store/
 .env
 
 # Scratch
-scratch/
+/scratch/
 *.log

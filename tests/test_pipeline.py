@@ -1,6 +1,7 @@
 """End to end: ingest, link, store, serve."""
 
 import json
+from pathlib import Path
 
 from fastapi.testclient import TestClient
 
@@ -128,3 +129,20 @@ def test_ingest_is_reproducible(tmp_path, probe_pdfs):
         return stats, sorted(rows)
 
     assert run("first.db") == run("second.db")
+
+
+def test_every_package_module_is_tracked_by_git():
+    """Guard against .gitignore silently excluding source from the repo.
+
+    An unanchored "store/" rule once matched factlayer/store/ at depth, so the
+    persistence layer was missing from every clone while the local tests, which
+    read from disk, kept passing.
+    """
+    import subprocess
+    root = Path(__file__).resolve().parent.parent
+    tracked = set(subprocess.run(["git", "ls-files", "factlayer"], cwd=root,
+                                 capture_output=True, text=True, check=True)
+                  .stdout.split())
+    on_disk = {str(p.relative_to(root)) for p in (root / "factlayer").rglob("*.py")
+               if "__pycache__" not in p.parts}
+    assert not (on_disk - tracked), f"not committed: {sorted(on_disk - tracked)}"
