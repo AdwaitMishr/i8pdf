@@ -1,0 +1,183 @@
+================================================================================
+FACT KNOWLEDGE LAYER — 3 MINUTE DEMO SCRIPT
+Superjoin engineering intern assignment
+================================================================================
+
+Spoken words: 435.  At a normal demo pace of ~150 wpm that is 2:55, which
+leaves room to slow down on the figures and still finish under three minutes.
+Keep talking while you switch tabs — the timeline assumes you do.
+
+Lines in quotes are spoken. Lines starting with SCREEN are what to show.
+
+
+--------------------------------------------------------------------------------
+BEFORE YOU RECORD — 5 minute setup
+--------------------------------------------------------------------------------
+
+1. Fresh database: the six starter documents plus the two labelled probe notes.
+
+     rm -f factlayer.db
+     .venv/bin/python -m factlayer ingest data/starter
+     .venv/bin/python -m factlayer ingest data/probe/probe-note-delhivery.pdf \
+         --collection delhivery --subject "Delhivery"
+     .venv/bin/python -m factlayer ingest data/probe/probe-note-india.pdf \
+         --collection india-macroeconomy --subject "India"
+     .venv/bin/python -m factlayer serve
+
+2. Open these, ready to switch between:
+     TAB 1   http://127.0.0.1:8000                     the UI
+     TAB 2   architecture.mmd pasted into https://mermaid.live
+     TAB 3   docs/FOUR_CASES.md rendered
+     TERMINAL, cleared, in the repo root
+
+3. In TAB 1 set the Relationships filter to "all" and untick "cross-document
+   only". Have data/starter/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf
+   open in a file picker, ready for the live upload.
+
+4. Zoom the browser to about 125% so the evidence quotes stay legible after
+   video compression.
+
+5. Optional but worth it: keep reasoning.mmd in a fourth tab. If you have spare
+   seconds at 1:24, it shows the decision tree behind Case 3 in one picture.
+
+
+--------------------------------------------------------------------------------
+[0:00 - 0:22]   THE PROBLEM                                        54 words
+--------------------------------------------------------------------------------
+SCREEN: TAB 3, docs/FOUR_CASES.md at the top.
+
+"Facts hide across documents, stated in different ways. But here's the thing:
+two numbers that disagree are usually both correct. Revenue differs because one
+figure is standalone and the other consolidated. Growth differs because one is a
+forecast, the other an outturn.
+
+So this system treats disagreement as the last explanation, never the first."
+
+
+--------------------------------------------------------------------------------
+[0:22 - 0:46]   ARCHITECTURE                                       59 words
+--------------------------------------------------------------------------------
+SCREEN: TAB 2, architecture.mmd. Point at each stage as you name it.
+
+"Three stages. Ground it: I rebuild reading order from line geometry, because
+naive extraction interleaves a two-column report.
+
+Describe it: four parsers, one per dimension, so every fact carries its own
+period, basis and evidence span.
+
+Compare it: concepts induced from the corpus, then a context-first classifier.
+
+No API key, no network — five hundred pages in under forty seconds."
+
+
+--------------------------------------------------------------------------------
+[0:46 - 1:00]   LIVE INGEST                                        34 words
+--------------------------------------------------------------------------------
+SCREEN: TAB 1. Upload the Q4 deck. Let the header counters update on camera.
+
+"Here's the UI. I'll drop in the Q4 results deck — twenty-seven pages, about a
+second. Every fact carries character offsets into the page, so I can show you
+the exact sentence it came from."
+
+
+--------------------------------------------------------------------------------
+[1:00 - 1:24]   CASE 1 — CORROBORATED, EXPRESSED DIFFERENTLY       59 words
+--------------------------------------------------------------------------------
+SCREEN: Relationships, filter "corroborates", tick cross-document only.
+        Land on the revenue card with both evidence panes visible.
+
+"Case one: corroboration, expressed differently.
+
+The annual report says revenue from operations — eighty-one thousand four
+hundred and fifteen million rupees. The deck says revenue from services — eight
+thousand one hundred and forty-two crore. Different words, different scale,
+different document. Nothing in the wording connects them; the values do.
+
+And that caption sat in a different cell — matched by position."
+
+
+--------------------------------------------------------------------------------
+[1:24 - 1:49]   CASE 3 — RECONCILED BY CONTEXT                     62 words
+--------------------------------------------------------------------------------
+SCREEN: filter "reconciled by context". Show the consolidation card, then
+        scroll to a vintage card. Flash TAB 4 (reasoning.mmd) only if ahead.
+
+"Case three, the interesting one. Same page of the annual report: FY24 revenue
+is seventy-four thousand million standalone, eighty-one thousand million
+consolidated. The system doesn't call that a conflict — it names consolidation
+as the reason.
+
+Same for vintage: the Economic Survey's six point four percent for FY25 is a
+first advance estimate, the IMF's is an outturn. Apparent contradictions that
+context explains."
+
+
+--------------------------------------------------------------------------------
+[1:49 - 2:13]   CASE 2 — A GENUINE CONTRADICTION                   60 words
+--------------------------------------------------------------------------------
+SCREEN: filter "contradicts", cross-document only. Show the parcel card.
+
+"Case two: a genuine contradiction. Across the six official documents, nothing
+survives the context checks — they all draw on the same statistics. That's a
+result, not a gap.
+
+So I generated a labelled probe note restating figures on the same basis and
+period. Express parcel shipments, FY24: seven hundred and five million against
+the deck's seven hundred and forty. Caught."
+
+
+--------------------------------------------------------------------------------
+[2:13 - 2:37]   CASE 4 — WHAT FAILS                                61 words
+--------------------------------------------------------------------------------
+SCREEN: TAB 3, scroll to Case 4 — the self-audit table.
+
+"Case four: what fails. The report ends with the system auditing itself —
+fifty-eight percent of facts have no period, twenty-four percent a single-word
+metric.
+
+Two failures I found by reading output. The RBI columns interleaved. And my value
+bridge merged headline with core inflation, because both read four point six
+percent. Both mitigated — thin phrases are still my main error source."
+
+
+--------------------------------------------------------------------------------
+[2:37 - 2:55]   TRADE-OFFS AND WHAT'S NEXT                         46 words
+--------------------------------------------------------------------------------
+SCREEN: TERMINAL. Run: .venv/bin/python -m pytest -q
+
+"The trade-off: rules by default, so it runs anywhere at no cost, plus an
+optional Claude pass that may only rewrite a fact's description, never its
+value, with every quote checked against the page.
+
+Next: state facts and full table grids.
+
+Ninety-seven tests, all green. Thanks."
+
+
+================================================================================
+DELIVERY NOTES
+================================================================================
+
+* Say the numbers as words, slowly. "Eighty-one thousand four hundred and
+  fifteen million" against "eight thousand one hundred and forty-two crore" is
+  the single most important moment in the video. Let both evidence panes sit on
+  screen while you say it.
+
+* The strongest half minute is 1:24 - 1:49, Case 3. If you overrun, cut from
+  the architecture section, never from there.
+
+* Do not apologise for Case 2 or Case 4. "No contradiction survived the context
+  checks" is a finding, and naming your own failure modes reads as confidence.
+
+* If a filter is slow, keep talking. The explanation carries the point; the card
+  only illustrates it.
+
+* Cuts, in the order to make them if you are running over 3:00:
+    1. "And that caption sat in a different cell" in Case 1        -5s
+    2. "Apparent contradictions that context explains." in Case 3  -3s
+    3. the whole live-upload section at 0:46                       -14s
+
+* One thing worth saying if a question comes up afterwards, but not on camera:
+  the two probe notes in data/probe are synthetic, generated by
+  scripts/make_probe_pdf.py, and each says so on its own first line. They exist
+  only because the real corpus contains no surviving contradiction.

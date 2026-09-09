@@ -74,9 +74,9 @@ export FACTLAYER_LLM=anthropic
 
 **TODO — add link before submitting (3 minutes or less).**
 
-Suggested run of show: ingest a starter PDF through the UI, open the
-Relationships tab, filter to *corroborates* and *reconciled by context*, then
-walk through the four cases in `docs/FOUR_CASES.md`.
+The script is written and timed: **[`script.txt`](script.txt)** — 435 spoken
+words, 2:55 at a normal pace, with a setup checklist, per-section timecodes, what
+to have on screen, and the cuts to make in order if you run long.
 
 ---
 
@@ -101,9 +101,16 @@ reasoning layer is.
 
 ### Pipeline
 
-```
-PDF ─▶ reading order ─▶ sentences & rows ─▶ facts ─▶ concepts ─▶ relationships ─▶ SQLite ─▶ API/UI
-      (pdf.py)          (segment.py)        (extract/)  (concepts.py)  (relations.py)
+Source: [`architecture.mmd`](architecture.mmd).
+
+```mermaid
+flowchart LR
+  IN["PDF in"] --> G["GROUND IT<br/>reading order from line geometry<br/>character offsets as anchors"]
+  G --> D["DESCRIBE IT<br/>period · quantity · qualifier · metric<br/>plus cell geometry for captions"]
+  D --> C["COMPARE IT<br/>induced concepts, value bridge,<br/>context-first classifier"]
+  C --> DB["SQLite"] --> OUT["UI · JSON API · report"]
+  D -.->|"uncertain facts only"| LLM["Optional Claude pass<br/>description only, quotes verified"]
+  LLM -.-> C
 ```
 
 **1. Reading order (`ingest/pdf.py`).** Naive extraction on a two-column report
@@ -183,6 +190,27 @@ Then: if any context dimension differs and the values differ →
 `reconciled_by_context`, naming the dimension. If nothing differs → `corroborates`
 or `contradicts`. If one period sits inside the other → `part_of`, with a
 component-versus-total sanity check.
+
+The full decision, in one picture — source: [`reasoning.mmd`](reasoning.mmd):
+
+```mermaid
+flowchart TD
+  A["Two facts, same collection"] --> U{"Same unit?"}
+  U -->|"no"| SKIP["no relationship"]
+  U -->|"yes"| D{"Both undated?"}
+  D -->|"yes"| SKIP
+  D -->|"no"| N{"One period inside the other?"}
+  N -->|"yes"| PART["PART OF<br/>component vs total check"]
+  N -->|"no"| CTX{"Any context dimension differs?<br/>period · consolidation · vintage<br/>price basis · adjustment · publication"}
+  CTX -->|"yes"| A1{"Values agree within<br/>stated precision?"}
+  A1 -->|"yes"| CONS["CONSISTENT ACROSS CONTEXT"]
+  A1 -->|"no"| REC["RECONCILED BY CONTEXT<br/>names the dimension"]
+  CTX -->|"no"| A2{"Values agree within<br/>stated precision?"}
+  A2 -->|"yes"| CORR["CORROBORATES"]
+  A2 -->|"no"| GATE{"Same multi-word metric,<br/>different pages?"}
+  GATE -->|"no"| SKIP
+  GATE -->|"yes"| CONTRA["CONTRADICTS"]
+```
 
 ### Engineering decisions and trade-offs
 
@@ -323,6 +351,8 @@ and what was done about each:
   data/starter/  the six provided PDFs
   data/probe/    two labelled synthetic notes (see Case 2)
   docs/          assignment brief, generated four-case report
+  samples/       committed sample input and output, for evaluation without running
+  architecture.mmd  reasoning.mmd  script.txt
   ```
 
   ~4,200 lines of Python, ~750 lines of tests.

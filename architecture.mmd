@@ -1,0 +1,69 @@
+%% Fact Knowledge Layer — architecture
+%% Render: https://mermaid.live  (paste this file)  or  mmdc -i architecture.mmd -o architecture.png
+%% The three stages answer three questions: where exactly did this come from,
+%% what does it say, and does it agree with everything else we know.
+
+flowchart TB
+
+  IN["PDF in<br/>drag onto the UI, or the CLI"]
+
+  subgraph S1["1 · GROUND IT — ingest/"]
+    direction TB
+    L["Line geometry<br/>PyMuPDF, per rendered line"]
+    C["Recursive column split<br/>widest whitespace gutter<br/>handles 2-page spreads of 2 columns"]
+    P["Paragraph reassembly<br/>joins a line only if the previous one<br/>reached the column margin"]
+    T["Page text + cell layer<br/>every character offset is an anchor"]
+    L --> C --> P --> T
+  end
+
+  subgraph S2["2 · DESCRIBE IT — extract/, one parser per dimension"]
+    direction TB
+    U["Sentences and table rows"]
+    PE["Period<br/>FY24 = 2023-24 = FY2023/24"]
+    QT["Quantity<br/>scale, unit, sign, precision"]
+    QL["Qualifier<br/>consolidation, vintage, real/nominal<br/>editable JSON lexicon"]
+    ME["Metric phrase<br/>syntactic walk left from the number<br/>no dictionary of known metrics"]
+    GE["Cell geometry<br/>slide caption, column header"]
+    F["FACT<br/>subject · metric · value · unit<br/>period · basis · evidence span"]
+    U --> PE
+    U --> QT
+    U --> QL
+    U --> ME
+    GE -.->|"names the value<br/>when words do not"| ME
+    PE --> F
+    QT --> F
+    QL --> F
+    ME --> F
+  end
+
+  subgraph S3["3 · COMPARE IT — knowledge/"]
+    direction TB
+    CO["Concept induction<br/>IDF over metric phrases<br/>incremental, no taxonomy"]
+    B1["Candidate pairs<br/>same concept, same unit"]
+    B2["Value bridge<br/>different words, same subject,<br/>period, unit and grounded value"]
+    R["Context-first classifier<br/>rule out every explanation<br/>before calling a conflict"]
+    CO --> B1 --> R
+    CO --> B2 --> R
+  end
+
+  DB["SQLite<br/>documents · pages · facts<br/>relations · concepts · FTS5"]
+  OUT["OUT<br/>UI and JSON API · four-case report · samples/"]
+  LLM["Optional Claude pass<br/>may rewrite only the description<br/>quotes verified verbatim against the page"]
+
+  IN --> L
+  T --> U
+  F --> CO
+  R --> DB
+  DB --> OUT
+  F -.->|"only the facts<br/>the rules were unsure of"| LLM
+  LLM -.-> CO
+
+  classDef io fill:#e7edff,stroke:#3352cc,color:#101321,stroke-width:1px
+  classDef fact fill:#e6f4ec,stroke:#1f7a4d,color:#101321,stroke-width:1px
+  classDef store fill:#f3f0ff,stroke:#6741d9,color:#101321,stroke-width:1px
+  classDef opt fill:#fdf4e3,stroke:#a35a00,color:#101321
+
+  class IN,OUT io
+  class F fact
+  class DB store
+  class LLM opt

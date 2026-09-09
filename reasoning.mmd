@@ -1,0 +1,40 @@
+%% How two facts are classified — the decision the whole project is about.
+%% Read top to bottom: a disagreement is the LAST explanation reached, not the first.
+%% Render: https://mermaid.live  (paste this file)
+
+flowchart TD
+
+  A["Two facts in the same collection"]
+  A --> U{"Same unit dimension?<br/>INR vs USD is not comparable"}
+  U -->|"no"| SKIP["no relationship"]
+
+  U -->|"yes"| S{"Do sentence-named<br/>subjects agree?"}
+  S -->|"no"| SKIP
+  S -->|"yes"| D{"Both facts undated?"}
+  D -->|"yes"| SKIP
+
+  D -->|"no"| N{"Is one period inside<br/>the other?<br/>Q4 FY24 within FY24"}
+  N -->|"yes"| PART["PART OF<br/>plus a component-vs-total check:<br/>a part larger than its whole<br/>is flagged"]
+
+  N -->|"no"| CTX{"Does any context dimension differ?<br/>period · consolidation · vintage<br/>price basis · adjustment · publication date"}
+
+  CTX -->|"yes"| A1{"Do the values agree within<br/>the precision each states?"}
+  A1 -->|"yes"| CONS["CONSISTENT ACROSS CONTEXT<br/>stated differently, same answer"]
+  A1 -->|"no"| REC["RECONCILED BY CONTEXT<br/>names the dimension that explains it<br/>e.g. standalone vs consolidated"]
+
+  CTX -->|"no"| A2{"Do the values agree within<br/>the precision each states?<br/>8,142 Cr covers 81,415.38 million,<br/>while 6.4% and 6.5% do not overlap"}
+  A2 -->|"yes"| CORR["CORROBORATES"]
+
+  A2 -->|"no"| GATE{"Strictest bar, because this is<br/>the most consequential label:<br/>same multi-word metric,<br/>and different pages?"}
+  GATE -->|"no"| SKIP
+  GATE -->|"yes"| CONTRA["CONTRADICTS<br/>no explanation available"]
+
+  classDef good fill:#e6f4ec,stroke:#1f7a4d,color:#101321
+  classDef bad fill:#fdeceb,stroke:#b3261e,color:#101321
+  classDef mid fill:#fdf4e3,stroke:#a35a00,color:#101321
+  classDef none fill:#f1f3f5,stroke:#868e96,color:#101321
+
+  class CORR good
+  class CONTRA bad
+  class REC,CONS,PART mid
+  class SKIP none
